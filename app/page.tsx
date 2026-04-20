@@ -1,12 +1,14 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 const content = {
   zh: {
     title: 'LoveLens',
     subtitle: '一个关于你在爱里是什么样子的测试',
     start: '开始测试',
+    chooseLanguage: '选择你的语言',
     sections: [
       { emoji: '🪞', title: '这只是一个测试', body: '不是判决，不是标签，不是定义你是谁的工具。48 个问题不可能装下一个完整的人。你比任何一个代码、任何一个类型，都要复杂得多、丰富得多、可爱得多。' },
       { emoji: '💫', title: '面对不同的人，你会是不同的你', body: '你的"类型"不是永远不变的。遇到让你感到安全的人，你会变得更稳、更会表达；遇到让你不安的人，你可能会突然变得焦虑、缩起来。两个都是你。' },
@@ -19,6 +21,7 @@ const content = {
     title: 'LoveLens',
     subtitle: 'A test about who you are, in love.',
     start: 'Start Test',
+    chooseLanguage: 'Choose your language',
     sections: [
       { emoji: '🪞', title: 'This is just a test', body: 'Not a verdict, not a label. 48 questions can\'t hold a whole person. You are more complex, more layered, more lovable than any code or type.' },
       { emoji: '💫', title: 'You become a different you, with different people', body: 'Your "type" isn\'t fixed forever. With someone who makes you feel safe, you become steadier. With someone who makes you anxious, you might withdraw. Both are you.' },
@@ -31,6 +34,7 @@ const content = {
     title: 'LoveLens',
     subtitle: '사랑 앞에서의 당신이 어떤 모습인지에 대한 테스트',
     start: '테스트 시작',
+    chooseLanguage: '언어를 선택해주세요',
     sections: [
       { emoji: '🪞', title: '이건 그저 하나의 테스트예요', body: '판결도, 라벨도 아니에요. 48개의 질문으로는 한 사람의 전부를 담을 수 없어요. 당신은 어떤 타입보다도 훨씬 더 복잡하고, 풍부하고, 사랑스러운 사람이에요.' },
       { emoji: '💫', title: '다른 사람 앞에서는, 다른 당신이 돼요', body: '당신의 "타입"은 영원히 변하지 않는 게 아니에요. 안전하게 느끼게 해주는 사람 앞에서는 더 안정되고, 불안하게 하는 사람 앞에서는 움츠러들 수 있어요. 둘 다 당신이에요.' },
@@ -45,35 +49,44 @@ type Lang = 'zh' | 'en' | 'ko'
 
 export default function Home() {
   const [lang, setLang] = useState<Lang>('zh')
+  const router = useRouter()
   const t = content[lang]
+
+  const handleStart = () => {
+    router.push(`/test?lang=${lang}`)
+  }
 
   return (
     <main className="min-h-screen bg-rose-50 flex flex-col items-center px-6 py-12">
-      {/* 语言切换 */}
-      <div className="flex gap-2 mb-10">
-        {(['zh', 'en', 'ko'] as Lang[]).map((l) => (
-          <button
-            key={l}
-            onClick={() => setLang(l)}
-            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
-              lang === l
-                ? 'bg-rose-400 text-white'
-                : 'bg-white text-rose-400 border border-rose-300'
-            }`}
-          >
-            {l === 'zh' ? '中文' : l === 'en' ? 'EN' : '한국어'}
-          </button>
-        ))}
-      </div>
 
       {/* 标题 */}
-      <div className="text-center mb-12">
+      <div className="text-center mb-10">
         <h1 className="text-5xl font-bold text-rose-400 mb-3">💕 {t.title}</h1>
         <p className="text-rose-300 text-lg">{t.subtitle}</p>
       </div>
 
+      {/* 语言选择 */}
+      <div className="w-full max-w-xl bg-white rounded-2xl p-6 shadow-sm mb-8">
+        <p className="text-gray-500 text-sm mb-3 text-center">{t.chooseLanguage}</p>
+        <div className="flex gap-3 justify-center">
+          {(['zh', 'en', 'ko'] as Lang[]).map((l) => (
+            <button
+              key={l}
+              onClick={() => setLang(l)}
+              className={`px-6 py-2.5 rounded-full text-sm font-medium transition-all ${
+                lang === l
+                  ? 'bg-rose-400 text-white shadow-sm'
+                  : 'bg-rose-50 text-rose-400 border border-rose-200'
+              }`}
+            >
+              {l === 'zh' ? '中文' : l === 'en' ? 'English' : '한국어'}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* 内容卡片 */}
-      <div className="w-full max-w-xl flex flex-col gap-5 mb-12">
+      <div className="w-full max-w-xl flex flex-col gap-4 mb-10">
         {t.sections.map((s, i) => (
           <div key={i} className="bg-white rounded-2xl p-6 shadow-sm">
             <div className="text-2xl mb-2">{s.emoji}</div>
@@ -84,7 +97,10 @@ export default function Home() {
       </div>
 
       {/* 开始按钮 */}
-      <button className="bg-rose-400 hover:bg-rose-500 text-white text-lg font-semibold px-10 py-4 rounded-full shadow-md transition-all">
+      <button
+        onClick={handleStart}
+        className="bg-rose-400 hover:bg-rose-500 text-white text-lg font-semibold px-12 py-4 rounded-full shadow-md transition-all"
+      >
         {t.start} ☁️
       </button>
 
