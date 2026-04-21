@@ -1,553 +1,498 @@
-export type Dimension = 'attachment' | 'expression' | 'structure' | 'conflict'
-
 export interface Option {
-  id: 'A' | 'B' | 'C' | 'D'
+  id: string
   zh: string
+  en: string
   ko: string
 }
 
 export interface Question {
   id: number
-  dimension: Dimension
+  dimension: 'attachment' | 'expression' | 'structure' | 'conflict'
   zh: string
+  en: string
   ko: string
   options: Option[]
 }
 
 export const questions: Question[] = [
-  // Q1-Q12: Attachment
-  {
-    id: 1, dimension: 'attachment',
-    zh: '伴侣最近心情不太好，但什么都不说。你最真实的反应——',
-    ko: '상대방이 요즘 기분이 안 좋은데, 아무 말도 안 해요. 당신의 가장 솔직한 반응은—',
-    options: [
-      { id: 'A', zh: '想着"伴侣需要时间"，但心里一直挂着', ko: '"상대방한테 시간이 필요하겠지"라고 생각하지만, 마음에 계속 걸려 있어요' },
-      { id: 'B', zh: '几次想问，又觉得问了像在逼伴侣', ko: '몇 번이나 물어볼까 하다가, 물으면 압박하는 것 같아서 망설여져요' },
-      { id: 'C', zh: '就在旁边做别的事，让伴侣感觉到你在', ko: '그냥 옆에서 다른 일을 하면서, 내가 여기 있다는 걸 느끼게 해요' },
-      { id: 'D', zh: '过两天没变化就直接问', ko: '이틀이 지나도 그대로면 그냥 물어봐요' },
-    ]
-  },
-  {
-    id: 2, dimension: 'attachment',
-    zh: '伴侣一整天没主动联系你。到了晚上——',
-    ko: '상대방이 하루 종일 먼저 연락을 안 했어요. 밤이 되었을 때—',
-    options: [
-      { id: 'A', zh: '你才意识到"对，今天没聊过"', ko: '그제서야 "아, 오늘 얘기 안 했네"라고 깨달아요' },
-      { id: 'B', zh: '你发了个消息开玩笑说"哇今天这么忙"', ko: '농담처럼 메시지를 보내요 — "우와, 오늘 엄청 바빴나 보네"' },
-      { id: 'C', zh: '你在等，也不确定在等什么', ko: '기다리고 있어요, 뭘 기다리는지도 확실치 않으면서' },
-      { id: 'D', zh: '你已经在脑子里想过三种可能了', ko: '이미 머릿속으로 세 가지 가능성을 생각해봤어요' },
-    ]
-  },
-  {
-    id: 3, dimension: 'attachment',
-    zh: '你们第一次认真谈到"一年后"——你心里闪过的第一个念头是？',
-    ko: '둘이 처음으로 진지하게 "일 년 뒤"에 대해 얘기했어요. 당신의 첫 번째 떠오른 생각은?',
-    options: [
-      { id: 'A', zh: '"那我们要一起计划了"', ko: '"그럼 우리 같이 계획을 세워야겠네"' },
-      { id: 'B', zh: '"好难想象那么远"', ko: '"그렇게 먼 일은 상상하기가 어렵네"' },
-      { id: 'C', zh: '"希望那时候我们还是这样"', ko: '"그때도 우리가 이렇게였으면 좋겠다"' },
-      { id: 'D', zh: '"我们不要先把这个定死"', ko: '"우리 이걸 미리 못 박지는 말자"' },
-    ]
-  },
-  {
-    id: 4, dimension: 'attachment',
-    zh: '伴侣睡觉时无意识把手抽走了。',
-    ko: '상대방이 자면서 무의식적으로 손을 빼갔어요.',
-    options: [
-      { id: 'A', zh: '继续睡', ko: '그냥 계속 자요' },
-      { id: 'B', zh: '会有点失落但知道不是故意的', ko: '좀 서운하지만 일부러 그런 게 아닌 걸 알아요' },
-      { id: 'C', zh: '靠过去把手再搭回来', ko: '더 가까이 가서 손을 다시 올려놔요' },
-      { id: 'D', zh: '脑子里闪过一下"最近是不是没那么亲了"', ko: '"요즘 우리 좀 멀어진 건가"라는 생각이 스쳐요' },
-    ]
-  },
-  {
-    id: 5, dimension: 'attachment',
-    zh: '伴侣要单独和一个你不太熟的朋友出去吃晚饭，预计三四个小时。',
-    ko: '상대방이 당신이 잘 모르는 친구와 단둘이 저녁을 먹으러 가요. 3~4시간 예상.',
-    options: [
-      { id: 'A', zh: '好好享受，我也有自己的事', ko: '잘 즐기고 와요, 나도 내 할 일이 있어요' },
-      { id: 'B', zh: '问一下是什么朋友，然后就没事了', ko: '어떤 친구인지 한 번 물어보고, 그걸로 괜찮아요' },
-      { id: 'C', zh: '嘴上说没事，心里有点在意', ko: '말로는 괜찮다고 하지만 마음에 좀 걸려요' },
-      { id: 'D', zh: '会想为什么突然要见这个人', ko: '"왜 갑자기 이 사람을 만나는 거지?"라고 생각해요' },
-    ]
-  },
-  {
-    id: 6, dimension: 'attachment',
-    zh: '你生病了，伴侣因为工作忙只能晚上来看你。',
-    ko: '당신이 아파요. 상대방은 일이 바빠서 저녁에만 올 수 있대요.',
-    options: [
-      { id: 'A', zh: '晚上来就行，我自己能照顾自己', ko: '저녁에 오면 돼요, 나 혼자 돌볼 수 있어요' },
-      { id: 'B', zh: '理解但希望伴侣多表达一下关心', ko: '이해는 하지만, 좀 더 걱정해줬으면 좋겠어요' },
-      { id: 'C', zh: '心里有点"重要的时候怎么不在"', ko: '마음속으로 "중요할 때 왜 옆에 없지"라는 생각이 들어요' },
-      { id: 'D', zh: '不说什么，但这次记在心里', ko: '아무 말 안 하지만, 이번 일을 마음에 담아둬요' },
-    ]
-  },
-  {
-    id: 7, dimension: 'attachment',
-    zh: '想到未来某一天可能会和伴侣分开——',
-    ko: '언젠가 상대방과 헤어질 수도 있다는 생각이 들면—',
-    options: [
-      { id: 'A', zh: '会难过但知道各自会过得好', ko: '슬프겠지만 각자 잘 살 거라는 걸 알아요' },
-      { id: 'B', zh: '不太愿意想这种事', ko: '그런 생각은 별로 하고 싶지 않아요' },
-      { id: 'C', zh: '那会是人生最痛的事之一', ko: '그건 인생에서 가장 아픈 일 중 하나가 될 거예요' },
-      { id: 'D', zh: '还没想过，现在想有点乱', ko: '생각해본 적 없어요, 지금 생각하니 좀 혼란스러워요' },
-    ]
-  },
-  {
-    id: 8, dimension: 'attachment',
-    zh: '伴侣说今晚想一个人在家放空。',
-    ko: '상대방이 오늘 저녁은 혼자 집에서 멍때리고 싶대요.',
-    options: [
-      { id: 'A', zh: '"好啊"，正好我也做自己的事', ko: '"좋아요", 마침 나도 내 할 일 있어요' },
-      { id: 'B', zh: '"好啊"但心里有点问是不是有什么事', ko: '"좋아요" 하지만 뭔가 있는 건 아닌지 마음속으로 궁금해요' },
-      { id: 'C', zh: '"要不要我陪但不打扰你？"', ko: '"내가 옆에 있어줄까? 방해 안 하고?"' },
-      { id: 'D', zh: '会想是不是伴侣想远离我', ko: '"혹시 상대방이 나한테서 멀어지려는 건가"라는 생각이 들어요' },
-    ]
-  },
-  {
-    id: 9, dimension: 'attachment',
-    zh: '一段关系里，你最怕失去的是——',
-    ko: '관계에서 가장 잃기 두려운 것은—',
-    options: [
-      { id: 'A', zh: '两个人之间的默契', ko: '둘 사이의 무언의 호흡' },
-      { id: 'B', zh: '被真正看见的感觉', ko: '진짜로 보여지는 느낌' },
-      { id: 'C', zh: '属于自己的节奏', ko: '내 자신만의 리듬' },
-      { id: 'D', zh: '可以不设防的那个人', ko: '마음을 풀어놓을 수 있는 그 사람' },
-    ]
-  },
-  {
-    id: 10, dimension: 'attachment',
-    zh: '伴侣某天说"我最近对我们之间有些感觉想聊聊"，你的第一反应——',
-    ko: '상대방이 어느 날 "요즘 우리 사이에 대해 얘기하고 싶은 감정이 있어"라고 말해요. 당신의 첫 반응은—',
-    options: [
-      { id: 'A', zh: '"好，什么时候聊？"', ko: '"좋아, 언제 얘기할래?"' },
-      { id: 'B', zh: '"现在就说，我想听"', ko: '"지금 말해, 듣고 싶어"' },
-      { id: 'C', zh: '"能不能晚点，让我先准备一下"', ko: '"좀 이따 얘기하면 안 될까, 나 마음의 준비 좀 하게"' },
-      { id: 'D', zh: '心一下沉下去了', ko: '마음이 확 내려앉아요' },
-    ]
-  },
-  {
-    id: 11, dimension: 'attachment',
-    zh: '你们感情特别稳定的阶段，你内心偶尔会闪过的念头——',
-    ko: '관계가 아주 안정적일 때, 가끔씩 당신 마음속에 스치는 생각은—',
-    options: [
-      { id: 'A', zh: '"真好，这样就好"', ko: '"진짜 좋다, 이대로만 가자"' },
-      { id: 'B', zh: '"这是不是太顺了"', ko: '"너무 순조로운 거 아닌가"' },
-      { id: 'C', zh: '"希望伴侣也觉得这样好"', ko: '"상대방도 이걸 좋다고 느끼면 좋겠다"' },
-      { id: 'D', zh: '"我要记住这种感觉"', ko: '"이 느낌을 기억해둬야지"' },
-    ]
-  },
-  {
-    id: 12, dimension: 'attachment',
-    zh: '健康的两人关系，在你心里的样子——',
-    ko: '당신 마음속 건강한 관계의 모습은—',
-    options: [
-      { id: 'A', zh: '像一个人一样同步', ko: '한 사람처럼 싱크가 맞아요' },
-      { id: 'B', zh: '像最好的朋友', ko: '가장 친한 친구 같아요' },
-      { id: 'C', zh: '像彼此的基地', ko: '서로의 베이스캠프 같아요' },
-      { id: 'D', zh: '像同路但各自走的人', ko: '같은 길을 각자 걷는 사람 같아요' },
-    ]
-  },
-
-  // Q13-Q24: Expression
-  {
-    id: 13, dimension: 'expression',
-    zh: '伴侣叹口气："我今天真的很累。" 你下一秒想到的回应——',
-    ko: '상대방이 한숨을 쉬며 말해요: "오늘 진짜 피곤해." 다음 순간 당신이 떠올리는 반응은—',
-    options: [
-      { id: 'A', zh: '"怎么了"', ko: '"왜?"' },
-      { id: 'B', zh: '"我在这儿"', ko: '"내가 여기 있잖아"' },
-      { id: 'C', zh: '"要不今晚什么都不用管，我来搞定"', ko: '"오늘 저녁은 아무것도 신경 쓰지 마, 내가 다 할게"' },
-      { id: 'D', zh: '什么都没说，把手搭上去', ko: '아무 말 없이, 손을 얹어요' },
-    ]
-  },
-  {
-    id: 14, dimension: 'expression',
-    zh: '你想让伴侣知道"我今天很想你"，你最自然的方式——',
-    ko: '"오늘 너가 많이 보고 싶었어"를 상대방에게 알리는 가장 자연스러운 방법은—',
-    options: [
-      { id: 'A', zh: '直接发消息说', ko: '메시지로 바로 말해요' },
-      { id: 'B', zh: '做一件伴侣会注意到的小事', ko: '상대방이 알아차릴 만한 작은 일을 해요' },
-      { id: 'C', zh: '等见面时多待一会儿，不急着走', ko: '만났을 때 조금 더 머물러요, 급하게 가지 않고' },
-      { id: 'D', zh: '把你们的晚上安排得很特别', ko: '오늘 저녁을 특별하게 계획해요' },
-    ]
-  },
-  {
-    id: 15, dimension: 'expression',
-    zh: '伴侣突然红了眼眶。你的第一个动作——',
-    ko: '상대방의 눈가가 갑자기 붉어졌어요. 당신의 첫 번째 동작은—',
-    options: [
-      { id: 'A', zh: '开口问"怎么了"', ko: '"왜 그래?"라고 물어봐요' },
-      { id: 'B', zh: '伸手过去接触', ko: '손을 뻗어 닿아요' },
-      { id: 'C', zh: '坐近但不说话', ko: '가까이 앉지만 말은 안 해요' },
-      { id: 'D', zh: '起身倒一杯水或找纸巾', ko: '일어나서 물을 떠오거나 휴지를 챙겨요' },
-    ]
-  },
-  {
-    id: 16, dimension: 'expression',
-    zh: '很久没见了，见面那一瞬间，你脑子里的声音是——',
-    ko: '오랜만에 만난 그 순간, 머릿속에 드는 생각은—',
-    options: [
-      { id: 'A', zh: '"天啊我有好多想说"', ko: '"아, 할 말이 너무 많아"' },
-      { id: 'B', zh: '只想先抱一下', ko: '일단 안아주고 싶어요' },
-      { id: 'C', zh: '"就这样看一会儿"', ko: '"이렇게 잠깐 바라보자"' },
-      { id: 'D', zh: '"今晚我都安排好了"', ko: '"오늘 저녁은 내가 다 준비해놨어"' },
-    ]
-  },
-  {
-    id: 17, dimension: 'expression',
-    zh: '你感觉这段关系变淡了，你会——',
-    ko: '이 관계가 좀 식은 것 같다고 느낄 때, 당신은—',
-    options: [
-      { id: 'A', zh: '想想我们关系里缺了什么，然后调整', ko: '우리 관계에서 뭐가 부족한지 생각하고 조정해요' },
-      { id: 'B', zh: '直接找伴侣聊', ko: '바로 상대방을 찾아서 얘기해요' },
-      { id: 'C', zh: '开始做更多让伴侣开心的事', ko: '상대방이 기뻐할 일을 더 많이 하기 시작해요' },
-      { id: 'D', zh: '更多地出现在伴侣身边', ko: '상대방 곁에 더 자주 있어요' },
-    ]
-  },
-  {
-    id: 18, dimension: 'expression',
-    zh: '伴侣做了一件让你很感动的事。你第一个反应——',
-    ko: '상대방이 당신을 감동시킨 일을 했어요. 첫 번째 반응은—',
-    options: [
-      { id: 'A', zh: '"谢谢你，真的"', ko: '"정말 고마워"' },
-      { id: 'B', zh: '回一个拥抱', ko: '포옹으로 답해요' },
-      { id: 'C', zh: '看着伴侣笑', ko: '상대방을 바라보며 웃어요' },
-      { id: 'D', zh: '想着下次我要怎么回应这份心意', ko: '다음에 이 마음을 어떻게 돌려줄지 생각해요' },
-    ]
-  },
-  {
-    id: 19, dimension: 'expression',
-    zh: '你们之间出现了一个小问题，你想化解气氛。你最可能——',
-    ko: '둘 사이에 작은 문제가 생겼어요. 분위기를 풀고 싶을 때, 가장 당신다운 건—',
-    options: [
-      { id: 'A', zh: '坐在旁边，不急着说话', ko: '옆에 앉아 있어요, 서둘러 말하지 않고' },
-      { id: 'B', zh: '想想怎么让下次不再出现这种情况', ko: '다음에 이런 일이 안 생기게 어떻게 할지 생각해요' },
-      { id: 'C', zh: '主动开玩笑或聊点轻松的', ko: '먼저 농담을 하거나 가벼운 얘기를 꺼내요' },
-      { id: 'D', zh: '做一顿伴侣喜欢的饭', ko: '상대방이 좋아하는 밥을 해줘요' },
-    ]
-  },
-  {
-    id: 20, dimension: 'expression',
-    zh: '伴侣生日，你希望伴侣最记得的是——',
-    ko: '상대방 생일에, 당신은 상대방이 가장 기억해주길 바라는 건—',
-    options: [
-      { id: 'A', zh: '你说的那段话', ko: '당신이 했던 그 말' },
-      { id: 'B', zh: '你准备的那个礼物', ko: '당신이 준비한 그 선물' },
-      { id: 'C', zh: '你一整天都陪着', ko: '하루 종일 곁에 있어준 것' },
-      { id: 'D', zh: '整个生日的安排都很用心', ko: '하루 전체의 세심한 계획' },
-    ]
-  },
-  {
-    id: 21, dimension: 'expression',
-    zh: '伴侣心情不好，看起来不想说话。你会——',
-    ko: '상대방이 기분이 안 좋고, 말하고 싶어 보이지 않아요. 당신은—',
-    options: [
-      { id: 'A', zh: '轻声问"想聊吗，还是想安静一会儿"', ko: '조용히 물어봐요 — "얘기하고 싶어, 아니면 조용히 있고 싶어?"' },
-      { id: 'B', zh: '默默地留出空间，但保持在视线内', ko: '조용히 공간을 주되, 시야 안에 있어요' },
-      { id: 'C', zh: '坐在附近做自己的事，让伴侣知道你在', ko: '근처에서 내 할 일을 하면서, 내가 여기 있다는 걸 알게 해요' },
-      { id: 'D', zh: '把接下来几天的事都先挡下来，让伴侣好好休息', ko: '앞으로 며칠간 일을 미리 다 막아놓고, 상대방이 푹 쉬게 해요' },
-    ]
-  },
-  {
-    id: 22, dimension: 'expression',
-    zh: '你觉得一段关系中，最能证明爱的是——',
-    ko: '관계에서 사랑을 가장 잘 증명하는 것은—',
-    options: [
-      { id: 'A', zh: '对方为你做的那些事', ko: '상대방이 당신을 위해 해주는 일들' },
-      { id: 'B', zh: '不说话也舒服的时间', ko: '말하지 않아도 편한 시간' },
-      { id: 'C', zh: '两个人能一起走过的事', ko: '둘이 함께 겪어낸 일들' },
-      { id: 'D', zh: '两个人能聊得很深', ko: '둘이 깊은 대화를 나눌 수 있다는 것' },
-    ]
-  },
-  {
-    id: 23, dimension: 'expression',
-    zh: '伴侣说"你最近好像心事重重"，你会——',
-    ko: '상대방이 "요즘 너 뭔가 마음에 걸려 있는 것 같아"라고 말해요. 당신은—',
-    options: [
-      { id: 'A', zh: '说"让我想想怎么跟你讲"', ko: '"어떻게 설명할지 좀 생각해볼게"라고 말해요' },
-      { id: 'B', zh: '跟伴侣说我在想什么', ko: '내가 뭘 생각하고 있는지 상대방에게 말해요' },
-      { id: 'C', zh: '轻轻靠过去说"没事"', ko: '살짝 기대며 "괜찮아"라고 말해요' },
-      { id: 'D', zh: '靠过去挨着伴侣', ko: '상대방에게 가까이 붙어요' },
-    ]
-  },
-  {
-    id: 24, dimension: 'expression',
-    zh: '你觉得让伴侣最感到"被爱"的时刻，通常是——',
-    ko: '상대방이 "사랑받는다"고 가장 크게 느끼는 순간은, 보통—',
-    options: [
-      { id: 'A', zh: '你突然说一句很真的话', ko: '당신이 갑자기 진심이 담긴 한마디를 할 때' },
-      { id: 'B', zh: '你记得了一件很小的事然后做出来', ko: '아주 작은 걸 기억해뒀다가 해줄 때' },
-      { id: 'C', zh: '你什么都没做，就在身边', ko: '아무것도 안 하고 그냥 곁에 있을 때' },
-      { id: 'D', zh: '你把一切都打理得刚刚好', ko: '모든 걸 딱 적절하게 준비해뒀을 때' },
-    ]
-  },
-
-  // Q25-Q36: Structure
-  {
-    id: 25, dimension: 'structure',
-    zh: '你们最好的状态，用一个比喻——',
-    ko: '둘의 가장 좋은 상태를 비유하자면—',
-    options: [
-      { id: 'A', zh: '两个人一起住在一个房间', ko: '한 방에 둘이 같이 살아요' },
-      { id: 'B', zh: '两个房间连着一扇门', ko: '두 방이 문 하나로 연결되어 있어요' },
-      { id: 'C', zh: '同一屋檐下各有各的房间', ko: '같은 지붕 아래 각자의 방이 있어요' },
-      { id: 'D', zh: '同一条街上相邻的两个家', ko: '같은 거리의 이웃한 두 집이에요' },
-    ]
-  },
-  {
-    id: 26, dimension: 'structure',
-    zh: '理想的周末是——',
-    ko: '이상적인 주말은—',
-    options: [
-      { id: 'A', zh: '从早到晚在一起', ko: '아침부터 저녁까지 함께' },
-      { id: 'B', zh: '大部分时间一起，留一点自己时间', ko: '대부분 같이, 약간의 혼자 시간' },
-      { id: 'C', zh: '白天各做各的，晚上一起', ko: '낮에는 각자, 저녁에는 같이' },
-      { id: 'D', zh: '想见就见，不想见就各自', ko: '보고 싶으면 보고, 아니면 각자' },
-    ]
-  },
-  {
-    id: 27, dimension: 'structure',
-    zh: '伴侣有一个你完全不感兴趣的爱好。三个月后——',
-    ko: '상대방에게 당신이 전혀 관심 없는 취미가 있어요. 3개월 뒤—',
-    options: [
-      { id: 'A', zh: '我知道伴侣周末在干这件事，就行了', ko: '상대방이 주말에 이걸 한다는 것만 알면 돼요' },
-      { id: 'B', zh: '我几乎想不起来这个爱好是什么', ko: '이 취미가 뭐였는지 거의 기억 안 나요' },
-      { id: 'C', zh: '我大概也跟着知道了这爱好是怎么回事', ko: '어느 정도 이 취미가 뭔지 알게 됐어요' },
-      { id: 'D', zh: '我能说出伴侣为什么喜欢，但我自己不碰', ko: '상대방이 왜 좋아하는지 설명할 수 있지만, 나는 안 해요' },
-    ]
-  },
-  {
-    id: 28, dimension: 'structure',
-    zh: '谈到"两个人之间要不要分享一切"——',
-    ko: '"둘 사이에 모든 걸 공유해야 하느냐"에 대해—',
-    options: [
-      { id: 'A', zh: '基本都应该分享，不然就不是真正的亲密', ko: '거의 다 공유해야죠, 안 그러면 진짜 친밀함이 아니에요' },
-      { id: 'B', zh: '重要的事分享就够了', ko: '중요한 건 공유하면 충분해요' },
-      { id: 'C', zh: '各自保留一些空间是健康的', ko: '각자 어느 정도 공간을 남기는 게 건강해요' },
-      { id: 'D', zh: '每个人都有不想被知道的事，这很正常', ko: '누구나 알리고 싶지 않은 게 있어요, 그건 자연스러워요' },
-    ]
-  },
-  {
-    id: 29, dimension: 'structure',
-    zh: '伴侣有一群你不太认识的朋友，经常一起聚。',
-    ko: '상대방에게 당신이 잘 모르는 친구 무리가 있고, 자주 모여요.',
-    options: [
-      { id: 'A', zh: '希望能多参与，慢慢融入', ko: '더 참여해서 천천히 섞이고 싶어요' },
-      { id: 'B', zh: '去过一两次，后面就看伴侣去吧', ko: '한두 번 가보고, 그 뒤엔 상대방만 가도 돼요' },
-      { id: 'C', zh: '不需要我加入，那是伴侣的圈子', ko: '내가 낄 필요 없어요, 그건 상대방의 영역이에요' },
-      { id: 'D', zh: '我有我的圈子，伴侣有伴侣的', ko: '나는 내 서클, 상대방은 상대방의 서클이 있어요' },
-    ]
-  },
-  {
-    id: 30, dimension: 'structure',
-    zh: '伴侣今天不想让你知道自己在想什么。你的感受——',
-    ko: '상대방이 오늘은 자기 생각을 당신에게 알리고 싶지 않대요. 당신의 느낌은—',
-    options: [
-      { id: 'A', zh: '尊重，但希望迟点会告诉我', ko: '존중해요, 근데 나중엔 말해줬으면 좋겠어요' },
-      { id: 'B', zh: '心里会有点空，不太舒服', ko: '마음이 좀 허전하고, 편하지 않아요' },
-      { id: 'C', zh: '没问题，我自己也常这样', ko: '괜찮아요, 나도 자주 그러거든요' },
-      { id: 'D', zh: '完全可以，每个人都有这种时候', ko: '전혀 상관없어요, 누구나 그럴 때가 있죠' },
-    ]
-  },
-  {
-    id: 31, dimension: 'structure',
-    zh: '你做了一个重要的决定（换工作、搬家、等等），想和伴侣商量。',
-    ko: '중요한 결정(이직, 이사 등)을 하려고 해요. 상대방과 상의하고 싶을 때—',
-    options: [
-      { id: 'A', zh: '决定之前我希望伴侣充分参与', ko: '결정 전에 상대방이 충분히 참여해줬으면 해요' },
-      { id: 'B', zh: '做决定前告诉伴侣，听听意见', ko: '결정 전에 상대방에게 말하고, 의견을 들어봐요' },
-      { id: 'C', zh: '决定好了再跟伴侣分享', ko: '결정을 내린 뒤 상대방에게 공유해요' },
-      { id: 'D', zh: '除非影响到伴侣，不然这是我自己的事', ko: '상대방에게 영향을 주지 않는 한, 내 일이에요' },
-    ]
-  },
-  {
-    id: 32, dimension: 'structure',
-    zh: '你觉得"我们"这个词在关系里应该——',
-    ko: '관계에서 "우리"라는 단어는—',
-    options: [
-      { id: 'A', zh: '越来越取代"我"和"你"', ko: '점점 "나"와 "너"를 대체해야 해요' },
-      { id: 'B', zh: '和"我"、"你"一起自然出现', ko: '"나", "너"와 함께 자연스럽게 나타나요' },
-      { id: 'C', zh: '只在讲共同事情时用', ko: '공통된 일을 말할 때만 써요' },
-      { id: 'D', zh: '不用刻意强调，两个人都在就行', ko: '굳이 강조 안 해도, 둘이 같이 있으면 돼요' },
-    ]
-  },
-  {
-    id: 33, dimension: 'structure',
-    zh: '伴侣想单独旅行两周。',
-    ko: '상대방이 혼자 2주간 여행을 가고 싶대요.',
-    options: [
-      { id: 'A', zh: '完全 OK，偶尔联系就行', ko: '완전 괜찮아요, 가끔 연락하면 돼요' },
-      { id: 'B', zh: '可以接受，但希望保持每天联系', ko: '괜찮지만, 매일 연락은 했으면 좋겠어요' },
-      { id: 'C', zh: '真好，我也趁这时间做自己的事', ko: '좋네요, 나도 그 시간에 내 일 해요' },
-      { id: 'D', zh: '希望能一起去，或者至少一起计划', ko: '같이 가고 싶어요, 아니면 적어도 같이 계획 세워요' },
-    ]
-  },
-  {
-    id: 34, dimension: 'structure',
-    zh: '你们之间最理想的沟通频率是——',
-    ko: '둘 사이의 이상적인 소통 빈도는—',
-    options: [
-      { id: 'A', zh: '每天很多次，分享日常的小事', ko: '하루에 여러 번, 일상의 작은 일을 공유해요' },
-      { id: 'B', zh: '每天一两次重要的对话', ko: '하루 한두 번의 중요한 대화' },
-      { id: 'C', zh: '有事就说，没事不一定要聊', ko: '일 있으면 얘기하고, 없으면 꼭 얘기할 필요 없어요' },
-      { id: 'D', zh: '想到了就聊，没想到就过去了', ko: '생각나면 얘기하고, 안 나면 그냥 지나가요' },
-    ]
-  },
-  {
-    id: 35, dimension: 'structure',
-    zh: '关于"爱让人变成更好的自己"这句话，你的感觉——',
-    ko: '"사랑은 사람을 더 나은 자신으로 만든다"는 말에 대해—',
-    options: [
-      { id: 'A', zh: '我希望在爱里慢慢变成那个更好的人', ko: '사랑 안에서 천천히 그 더 나은 사람이 되고 싶어요' },
-      { id: 'B', zh: '会互相影响，一起成长', ko: '서로 영향을 주며, 같이 성장해요' },
-      { id: 'C', zh: '变好是自己的事，和关系无关', ko: '더 나아지는 건 내 일이지, 관계랑은 상관없어요' },
-      { id: 'D', zh: '保持自己就好，不用因为爱而改变', ko: '내 모습 그대로면 돼요, 사랑 때문에 바뀔 필요 없어요' },
-    ]
-  },
-  {
-    id: 36, dimension: 'structure',
-    zh: '你觉得一段关系长期健康的关键是——',
-    ko: '관계가 오래 건강하게 유지되는 핵심은—',
-    options: [
-      { id: 'A', zh: '互相尊重各自的世界', ko: '서로의 세계를 존중하는 것' },
-      { id: 'B', zh: '给彼此足够的自由', ko: '서로에게 충분한 자유를 주는 것' },
-      { id: 'C', zh: '两个人的心是在一起的', ko: '두 사람의 마음이 함께 있는 것' },
-      { id: 'D', zh: '有自己，也有我们', ko: '"나"도 있고, "우리"도 있는 것' },
-    ]
-  },
-
-  // Q37-Q48: Conflict
-  {
-    id: 37, dimension: 'conflict',
-    zh: '你们正在说一件事，伴侣说了一句让你很不舒服的话。',
-    ko: '뭔가 얘기하던 중, 상대방이 당신을 많이 불편하게 만드는 말을 했어요.',
-    options: [
-      { id: 'A', zh: '立刻说"你刚说的那句话，我听着很不舒服"', ko: '바로 말해요 — "방금 그 말, 나 듣기 많이 불편했어"' },
-      { id: 'B', zh: '先停一下，理一下自己的感受再回', ko: '일단 멈추고, 내 감정을 좀 정리한 뒤 다시 말해요' },
-      { id: 'C', zh: '用半开玩笑的方式把气氛带回来', ko: '반쯤 농담으로 분위기를 돌려놔요' },
-      { id: 'D', zh: '这次先不说，当没听见', ko: '이번엔 그냥 말 안 하고, 못 들은 척해요' },
-    ]
-  },
-  {
-    id: 38, dimension: 'conflict',
-    zh: '吵到一半，你发现自己越说越激动。',
-    ko: '싸우다가, 말할수록 점점 격해지는 자신을 발견해요.',
-    options: [
-      { id: 'A', zh: '继续说完，有话就要说清楚', ko: '끝까지 말해요, 할 말은 확실히 해야 해요' },
-      { id: 'B', zh: '主动停下来："我先冷静一下再说"', ko: '먼저 멈춰요 — "나 잠깐 진정하고 다시 얘기할게"' },
-      { id: 'C', zh: '转移话题，先让气氛降温', ko: '화제를 바꿔서, 분위기부터 식혀요' },
-      { id: 'D', zh: '不再说了，让伴侣赢这回', ko: '더 이상 말 안 해요, 이번엔 상대방이 이기게 해요' },
-    ]
-  },
-  {
-    id: 39, dimension: 'conflict',
-    zh: '吵完架后的第一个晚上，你们躺在床上，背对着彼此。你——',
-    ko: '다툰 뒤 첫 번째 밤, 침대에 누워 서로 등을 돌리고 있어요. 당신은—',
-    options: [
-      { id: 'A', zh: '伸手过去，"我们谈谈吧"', ko: '손을 뻗으며 — "우리 얘기하자"' },
-      { id: 'B', zh: '需要时间，让今晚这样过', ko: '시간이 필요해요, 오늘 밤은 이대로 지나가게' },
-      { id: 'C', zh: '发一条轻轻的"晚安"', ko: '살며시 "잘 자"라고 메시지를 보내요' },
-      { id: 'D', zh: '就这样睡，等明天', ko: '그냥 이대로 자고, 내일을 기다려요' },
-    ]
-  },
-  {
-    id: 40, dimension: 'conflict',
-    zh: '冷战持续了两天，你发现伴侣好像也在等你。',
-    ko: '냉전이 이틀 지속됐어요. 상대방도 당신을 기다리는 것 같다는 걸 알아차려요.',
-    options: [
-      { id: 'A', zh: '我先开口，这种状态太累了', ko: '내가 먼저 말 꺼내요, 이런 상태가 너무 힘들어요' },
-      { id: 'B', zh: '我还没想明白，等想明白再开口', ko: '아직 정리가 안 됐어요, 정리되면 말할게요' },
-      { id: 'C', zh: '做一顿饭，或者递一杯水，让气氛化开', ko: '밥 한 끼 하거나, 물 한 잔 건네며 분위기를 풀어요' },
-      { id: 'D', zh: '继续等，看谁先妥协', ko: '계속 기다려요, 누가 먼저 굽히는지 보려고' },
-    ]
-  },
-  {
-    id: 41, dimension: 'conflict',
-    zh: '伴侣做了一件你觉得"越线"的事。你的反应——',
-    ko: '상대방이 당신이 "선을 넘었다"고 느끼는 일을 했어요. 당신의 반응은—',
-    options: [
-      { id: 'A', zh: '"这件事我们必须谈清楚"', ko: '"이건 우리 꼭 명확히 얘기해야 해"' },
-      { id: 'B', zh: '先不说，但认真想这件事到底意味着什么', ko: '당장 말하진 않지만, 이 일이 무슨 의미인지 진지하게 생각해요' },
-      { id: 'C', zh: '心里不舒服，但想着"算了，下次避开"', ko: '마음은 불편하지만 "됐다, 다음엔 피하자" 싶어요' },
-      { id: 'D', zh: '没说什么，但心里记着这笔账', ko: '아무 말 안 하지만, 마음속에 담아둬요' },
-    ]
-  },
-  {
-    id: 42, dimension: 'conflict',
-    zh: '伴侣伤害了你，道歉了，但你还没完全放下。',
-    ko: '상대방이 당신을 상처 입혔고, 사과도 했어요. 하지만 아직 완전히 내려놓진 못했어요.',
-    options: [
-      { id: 'A', zh: '跟伴侣说"我接受道歉，但我还在消化"', ko: '상대방에게 말해요 — "사과는 받을게, 근데 아직 소화 중이야"' },
-      { id: 'B', zh: '需要时间自己想，不需要立刻回应', ko: '혼자 생각할 시간이 필요해요, 당장 답하지 않아도 돼요' },
-      { id: 'C', zh: '表面过去了，让关系先恢复正常', ko: '겉으론 넘어가요, 관계부터 일단 회복시켜요' },
-      { id: 'D', zh: '不说出来，但默默带着这个感觉继续', ko: '말하진 않지만, 이 감정을 품은 채 계속 가요' },
-    ]
-  },
-  {
-    id: 43, dimension: 'conflict',
-    zh: '你意识到自己刚才说的话可能伤到伴侣了。',
-    ko: '방금 한 말이 상대방을 상처 입혔을 수도 있다는 걸 깨달아요.',
-    options: [
-      { id: 'A', zh: '立刻说"对不起，我刚才那句话不对"', ko: '바로 말해요 — "미안해, 방금 그 말은 아니었어"' },
-      { id: 'B', zh: '先观察伴侣的反应，想想怎么道歉', ko: '상대방 반응부터 살피며, 어떻게 사과할지 생각해요' },
-      { id: 'C', zh: '用一个动作弥补——拥抱、倒水、打岔', ko: '행동으로 메워요 — 포옹, 물 떠주기, 말 돌리기' },
-      { id: 'D', zh: '希望伴侣没太在意，这事就过去了', ko: '상대방이 크게 신경 안 써서 그냥 지나가길 바라요' },
-    ]
-  },
-  {
-    id: 44, dimension: 'conflict',
-    zh: '你发现你们最近的一个冲突其实是你的责任。',
-    ko: '최근 다툼이 사실 당신 책임이었다는 걸 깨달아요.',
-    options: [
-      { id: 'A', zh: '主动认错："对不起，是我当时没处理好"', ko: '먼저 인정해요 — "미안해, 그때 내가 잘 처리 못했어"' },
-      { id: 'B', zh: '想清楚自己错在哪里再说', ko: '내가 어디서 잘못했는지 분명히 이해한 뒤 말해요' },
-      { id: 'C', zh: '做点什么弥补，不用非要说出来', ko: '뭔가 행동으로 메워요, 꼭 말로 안 해도 돼요' },
-      { id: 'D', zh: '下次注意就好，这次就不拿出来讲了', ko: '다음엔 조심하면 돼요, 이번 건 꺼내지 않을래요' },
-    ]
-  },
-  {
-    id: 45, dimension: 'conflict',
-    zh: '你们在一个重要的事上想法不一样，发现这不是小分歧。',
-    ko: '중요한 일에서 생각이 달라요. 이게 작은 이견이 아니라는 걸 깨달아요.',
-    options: [
-      { id: 'A', zh: '那就好好谈清楚，不要绕', ko: '그럼 제대로 얘기해요, 돌리지 말고' },
-      { id: 'B', zh: '我需要先自己想一下我到底想要什么', ko: '내가 진짜 뭘 원하는지 먼저 혼자 생각해봐야 해요' },
-      { id: 'C', zh: '先放一放，找一个两人都舒服的方式慢慢来', ko: '일단 좀 두고, 둘 다 편한 방식을 찾아서 천천히 가요' },
-      { id: 'D', zh: '我可以顺着伴侣的想法走', ko: '나는 상대방 생각을 따라갈 수 있어요' },
-    ]
-  },
-  {
-    id: 46, dimension: 'conflict',
-    zh: '同一件事，你们反复说了好几次还是谈不拢。',
-    ko: '같은 일을 몇 번이나 반복해서 얘기했는데도 접점이 없어요.',
-    options: [
-      { id: 'A', zh: '"今天要真的谈到有个结果"', ko: '"오늘은 진짜로 결론을 내야 해"' },
-      { id: 'B', zh: '"我们先暂停，各自想想"', ko: '"일단 멈추고, 각자 생각해보자"' },
-      { id: 'C', zh: '"换个方式聊吧，这样讲不下去"', ko: '"방식을 바꿔서 얘기하자, 이렇게는 안 되겠어"' },
-      { id: 'D', zh: '"算了，这事我退一步吧"', ko: '"됐어, 이건 내가 한 발 물러설게"' },
-    ]
-  },
-  {
-    id: 47, dimension: 'conflict',
-    zh: '你发现自己一直在让步，而伴侣可能没意识到。',
-    ko: '당신이 계속 양보해왔고, 상대방은 아마 인식 못하고 있다는 걸 발견해요.',
-    options: [
-      { id: 'A', zh: '找个时机说"我也需要被看到"', ko: '적당한 때를 찾아 말해요 — "나도 봐줬으면 좋겠어"' },
-      { id: 'B', zh: '先想清楚到底哪些让步是不必要的', ko: '어떤 양보가 불필요했는지 먼저 분명히 생각해봐요' },
-      { id: 'C', zh: '用一些方式让伴侣慢慢察觉', ko: '몇 가지 방식으로 상대방이 천천히 알아차리게 해요' },
-      { id: 'D', zh: '继续这样，毕竟是我选择的', ko: '이대로 계속 가요, 어쨌든 내가 선택한 거니까요' },
-    ]
-  },
-  {
-    id: 48, dimension: 'conflict',
-    zh: '你心里有一些没说出来的小不满，积了一段时间。',
-    ko: '마음에 말 못한 작은 불만들이, 한동안 쌓여 있어요.',
-    options: [
-      { id: 'A', zh: '找个好时机一次说清楚', ko: '좋은 때를 골라 한 번에 확실히 말해요' },
-      { id: 'B', zh: '自己先想想，哪些是真的重要的', ko: '먼저 혼자 생각해봐요, 어떤 게 진짜 중요한지' },
-      { id: 'C', zh: '用更多的正面互动让关系变好，不提那些', ko: '긍정적인 교류를 늘려서 관계를 좋게 해요, 그건 꺼내지 않고' },
-      { id: 'D', zh: '继续放着，可能慢慢就不在意了', ko: '계속 그냥 둬요, 아마 점점 신경 안 쓰게 될 거예요' },
-    ]
-  },
+  { id:1, dimension:'attachment',
+    zh:'伴侣最近心情不好，但什么都不说。你最真实的反应——',
+    en:'Your partner has been in a bad mood lately but isn\'t saying anything. Your most honest reaction—',
+    ko:'파트너가 요즘 기분이 좋지 않지만 아무 말도 안 해요. 가장 솔직한 반응은—',
+    options:[
+      {id:'A', zh:'想着"伴侣需要时间"，但心里一直挂着', en:'Thinking "they need time," but it stays on your mind', ko:'"시간이 필요하겠지"라고 생각하지만 마음에 계속 걸려요'},
+      {id:'B', zh:'想问好几次，但觉得问了是在施压', en:'Wanting to ask several times, but feeling that asking would be pressuring them', ko:'여러 번 물어보고 싶지만 물어보면 압박이 될 것 같아요'},
+      {id:'C', zh:'就在旁边做别的事，让伴侣感觉到你在', en:'Just doing other things nearby, letting them feel you\'re there', ko:'그냥 옆에서 다른 일을 하면서 파트너가 내가 있다는 걸 느끼게 해요'},
+      {id:'D', zh:'如果几天都没变化，你直接问了', en:'If nothing changes in a few days, you ask directly', ko:'며칠이 지나도 변화가 없으면 직접 물어봐요'},
+    ]},
+  { id:2, dimension:'attachment',
+    zh:'伴侣今天一整天没有主动联系。到了晚上——',
+    en:'Your partner didn\'t reach out all day. By evening—',
+    ko:'파트너가 하루 종일 먼저 연락하지 않았어요. 저녁이 되면—',
+    options:[
+      {id:'A', zh:'你才意识到"对哦，我们今天没说话"', en:'You just realized "right, we didn\'t talk today"', ko:'"아, 오늘 얘기를 안 했네"라고 이제야 깨달았어요'},
+      {id:'B', zh:'发了一条"哇你今天好忙哦"的消息', en:'You send a playful message saying "wow, so busy today?"', ko:'"와 오늘 많이 바쁜가봐요"라는 메시지를 보냈어요'},
+      {id:'C', zh:'在等，但不确定在等什么', en:'You\'re waiting, not quite sure what for', ko:'기다리고 있지만 무엇을 기다리는지 잘 모르겠어요'},
+      {id:'D', zh:'已经在心里想了三种可能性', en:'You\'ve already imagined three possibilities in your head', ko:'이미 머릿속으로 세 가지 가능성을 생각해봤어요'},
+    ]},
+  { id:3, dimension:'attachment',
+    zh:'你们认真讨论"一年后"——第一个念头是？',
+    en:'You two are seriously discussing "a year from now"—the first thought that crosses your mind is?',
+    ko:'둘이서 "1년 후"에 대해 진지하게 이야기하고 있어요—가장 먼저 드는 생각은?',
+    options:[
+      {id:'A', zh:'"那我们需要一起计划"', en:'"So we need to plan together"', ko:'"그럼 우리 함께 계획을 세워야겠다"'},
+      {id:'B', zh:'"很难想象那么远"', en:'"Hard to imagine that far out"', ko:'"그렇게 먼 미래는 상상하기 어려워요"'},
+      {id:'C', zh:'"希望那时候我们还是这样"', en:'"Hope we\'re still like this then"', ko:'"그때도 우리가 이랬으면 좋겠다"'},
+      {id:'D', zh:'"先不要把这个说死"', en:'"Let\'s not pin this down yet"', ko:'"아직 이걸 확정 짓지 말자"'},
+    ]},
+  { id:4, dimension:'attachment',
+    zh:'伴侣在睡梦中无意识地把手抽回去了。',
+    en:'Your partner unconsciously pulled their hand away in their sleep.',
+    ko:'파트너가 잠든 사이에 무의식적으로 손을 뺐어요.',
+    options:[
+      {id:'A', zh:'继续睡', en:'Keep sleeping', ko:'계속 자요'},
+      {id:'B', zh:'有点失落，但知道不是故意的', en:'Feel a little down but know it wasn\'t intentional', ko:'조금 서운하지만 의도적이지 않았다는 걸 알아요'},
+      {id:'C', zh:'往前靠了靠，把手放回去', en:'Move closer and put the hand back', ko:'더 가까이 다가가서 손을 다시 잡았어요'},
+      {id:'D', zh:'闪过一个念头："我们最近是不是没那么亲近了"', en:'A thought flashes through: "have we been less close lately?"', ko:'"우리 요즘 덜 가깝나?"라는 생각이 스쳐요'},
+    ]},
+  { id:5, dimension:'attachment',
+    zh:'伴侣要独自去和你不太熟的朋友吃饭，大概三四个小时。',
+    en:'Your partner is going out for dinner alone with a friend you don\'t know well, probably for three or four hours.',
+    ko:'파트너가 당신이 잘 모르는 친구와 단둘이 저녁을 먹으러 가요. 아마 서너 시간 정도요.',
+    options:[
+      {id:'A', zh:'挺好的，我也有自己的事情可以做', en:'Enjoy it, I have my own things to do', ko:'좋아요, 저도 할 일이 있어요'},
+      {id:'B', zh:'问了一下是哪个朋友，然后就没事了', en:'Ask which friend, then it\'s fine', ko:'어떤 친구인지 물어보고 나면 괜찮아요'},
+      {id:'C', zh:'说了"没事"，但心里有点介意', en:'Say "it\'s fine" but feel a little bothered', ko:'"괜찮아"라고 했지만 마음이 좀 신경 쓰여요'},
+      {id:'D', zh:'有点想不明白为什么突然要见这个人', en:'Wonder why they\'re suddenly seeing this person', ko:'왜 갑자기 이 사람을 만나는지 이해가 잘 안 돼요'},
+    ]},
+  { id:6, dimension:'attachment',
+    zh:'你生病了，伴侣因为工作只能晚上才来看你。',
+    en:'You\'re sick, and your partner can only come see you in the evening because of work.',
+    ko:'아픈데 파트너는 일 때문에 저녁에야 올 수 있어요.',
+    options:[
+      {id:'A', zh:'晚上也行，我能照顾自己', en:'Evening is fine, I can take care of myself', ko:'저녁도 괜찮아요, 스스로 돌볼 수 있어요'},
+      {id:'B', zh:'理解，但希望对方多表达一点关心', en:'Understand but hope they express more care', ko:'이해하지만 좀 더 걱정해줬으면 해요'},
+      {id:'C', zh:'有点"关键时刻你在哪儿"的感觉', en:'Feel a little "where are you when it matters?"', ko:'"중요할 때 어디 있어요?"라는 느낌이 들어요'},
+      {id:'D', zh:'没说什么，但这次记住了', en:'Don\'t say anything, but remember it this time', ko:'아무 말 안 했지만 이번엔 기억해둘 거예요'},
+    ]},
+  { id:7, dimension:'attachment',
+    zh:'想到有一天你们可能会分开——',
+    en:'Thinking that someday in the future, you and your partner might separate—',
+    ko:'언젠가 헤어질 수도 있다고 생각하면—',
+    options:[
+      {id:'A', zh:'会难过，但知道两个人都会好的', en:'Would be sad but know both will be fine', ko:'슬프겠지만 둘 다 괜찮을 거라는 걸 알아요'},
+      {id:'B', zh:'不太想想这个', en:'Don\'t really want to think about this', ko:'별로 생각하고 싶지 않아요'},
+      {id:'C', zh:'那会是我人生中最痛的事之一', en:'That would be one of the most painful things in life', ko:'그건 인생에서 가장 아픈 일 중 하나일 거예요'},
+      {id:'D', zh:'没有想过，现在想感觉很混乱', en:'Haven\'t thought about it, thinking about it now feels chaotic', ko:'생각해본 적 없는데 지금 생각하니 혼란스러워요'},
+    ]},
+  { id:8, dimension:'attachment',
+    zh:'伴侣说今晚想一个人待在家里放松一下。',
+    en:'Your partner says they want to be alone at home tonight to unwind.',
+    ko:'파트너가 오늘 밤 혼자 집에서 쉬고 싶다고 해요.',
+    options:[
+      {id:'A', zh:'"好的"，反正我也有自己的事', en:'"Okay," I\'ll do my own things anyway', ko:'"알겠어요", 어차피 저도 할 일이 있어요'},
+      {id:'B', zh:'"好的"，但内心想了一下是不是有什么事', en:'"Okay" but wonder inside if something\'s going on', ko:'"알겠어요" 하지만 속으로 무슨 일이 있나 생각해요'},
+      {id:'C', zh:'"你要不要我陪着但不打扰你？"', en:'"Do you want me with you but not disturbing?"', ko:'"같이 있되 방해하지 않는 건 어때요?"'},
+      {id:'D', zh:'想知道是不是想离开我', en:'Wonder if they want to get away from me', ko:'나를 피하고 싶은 건지 궁금해요'},
+    ]},
+  { id:9, dimension:'attachment',
+    zh:'在感情里，你最害怕失去的是——',
+    en:'In a relationship, what you most fear losing is—',
+    ko:'관계에서 가장 잃을까 봐 두려운 것은—',
+    options:[
+      {id:'A', zh:'两个人之间的默契', en:'The silent understanding between two people', ko:'둘 사이의 무언의 이해'},
+      {id:'B', zh:'被真正看见的感觉', en:'The feeling of being truly seen', ko:'진정으로 보여지는 느낌'},
+      {id:'C', zh:'属于自己的节奏', en:'A rhythm that belongs to yourself', ko:'자신만의 리듬'},
+      {id:'D', zh:'那个你可以放下防备的人', en:'The one person you can let your guard down with', ko:'경계를 내려놓을 수 있는 그 사람'},
+    ]},
+  { id:10, dimension:'attachment',
+    zh:'伴侣说"我最近有一些关于我们的感受想聊"——你的第一反应是——',
+    en:'Your partner says "I have some feelings about us I want to talk about lately"—your first reaction is—',
+    ko:'파트너가 "요즘 우리에 대해 이야기하고 싶은 게 있어요"라고 해요—첫 번째 반응은—',
+    options:[
+      {id:'A', zh:'"好，我们什么时候聊？"', en:'"Okay, when should we talk?"', ko:'"알겠어요, 언제 얘기할까요?"'},
+      {id:'B', zh:'"现在说吧，我想听"', en:'"Say it now, I want to hear"', ko:'"지금 말해요, 듣고 싶어요"'},
+      {id:'C', zh:'"可以之后再说吗，让我先准备一下"', en:'"Could we do it later, let me prepare first"', ko:'"나중에 얘기해도 될까요, 먼저 마음의 준비를 할게요"'},
+      {id:'D', zh:'心里一沉', en:'Your heart sinks', ko:'마음이 내려앉아요'},
+    ]},
+  { id:11, dimension:'attachment',
+    zh:'在感情特别稳定的一个阶段，偶尔闪过的念头——',
+    en:'During an especially stable phase of your relationship, an occasional thought that flashes through your mind—',
+    ko:'관계가 특히 안정적인 시기에 가끔 스치는 생각—',
+    options:[
+      {id:'A', zh:'"就这样挺好的"', en:'"This is good, just like this"', ko:'"이렇게 좋아요"'},
+      {id:'B', zh:'"这样是不是太顺了？"', en:'"Is this going too smoothly?"', ko:'"너무 순탄한 거 아닐까요?"'},
+      {id:'C', zh:'"希望他们也觉得这样好"', en:'"Hope they feel this is good too"', ko:'"파트너도 이게 좋다고 느꼈으면 해요"'},
+      {id:'D', zh:'"我想记住这种感觉"', en:'"I want to remember this feeling"', ko:'"이 느낌을 기억하고 싶어요"'},
+    ]},
+  { id:12, dimension:'attachment',
+    zh:'两个人之间健康的关系，在你心里长什么样——',
+    en:'A healthy relationship between two people, in your heart, looks like—',
+    ko:'건강한 관계가 마음속에서 어떻게 생겼나요—',
+    options:[
+      {id:'A', zh:'同步得像一个人', en:'Synchronized like one person', ko:'한 사람처럼 동기화되어 있어요'},
+      {id:'B', zh:'像最好的朋友', en:'Like best friends', ko:'가장 친한 친구 같아요'},
+      {id:'C', zh:'像彼此的大本营', en:'Like each other\'s home base', ko:'서로의 안식처 같아요'},
+      {id:'D', zh:'像各走各的路却走在同一条路上的人', en:'Like people walking the same road separately', ko:'각자 걷지만 같은 길을 걷는 사람들 같아요'},
+    ]},
+  { id:13, dimension:'expression',
+    zh:'伴侣叹了口气："今天好累。"接下来一秒你的反应——',
+    en:'Your partner sighs: "I\'m really tired today." The response that comes to you in the next second—',
+    ko:'파트너가 한숨을 쉬며 "오늘 정말 피곤해요"라고 해요. 다음 순간 반응은—',
+    options:[
+      {id:'A', zh:'"发生什么了？"', en:'"What happened?"', ko:'"무슨 일이에요?"'},
+      {id:'B', zh:'"我在"', en:'"I\'m here"', ko:'"여기 있어요"'},
+      {id:'C', zh:'"今晚你什么都不用管，我来"', en:'"How about tonight you don\'t have to worry about anything, I\'ll handle it"', ko:'"오늘 밤은 아무것도 신경 쓰지 마요, 제가 할게요"'},
+      {id:'D', zh:'什么都没说，把手放到对方手上', en:'Don\'t say anything, put your hand on theirs', ko:'아무 말 없이 손을 파트너 손 위에 올려요'},
+    ]},
+  { id:14, dimension:'expression',
+    zh:'你想让伴侣知道"我今天很想你"——你最自然的方式——',
+    en:'You want your partner to know "I miss you a lot today"—the most natural way for you—',
+    ko:'파트너에게 "오늘 많이 보고 싶었어요"를 알리고 싶어요—가장 자연스러운 방법은—',
+    options:[
+      {id:'A', zh:'直接发消息说', en:'Directly send a message saying so', ko:'직접 메시지로 말해요'},
+      {id:'B', zh:'做一件他们会注意到的小事', en:'Do a small thing they\'ll notice', ko:'파트너가 알아챌 작은 일을 해요'},
+      {id:'C', zh:'见面的时候多待一会儿，不急着走', en:'When you meet, stay longer, not rushing to leave', ko:'만났을 때 더 오래 있고 서두르지 않아요'},
+      {id:'D', zh:'安排一个很特别的晚上', en:'Arrange something very special for your evening together', ko:'특별한 저녁을 준비해요'},
+    ]},
+  { id:15, dimension:'expression',
+    zh:'伴侣突然眼眶有点红。你第一个动作——',
+    en:'Your partner suddenly has watery eyes. Your first action—',
+    ko:'파트너의 눈이 갑자기 빨개졌어요. 첫 번째 행동은—',
+    options:[
+      {id:'A', zh:'问"怎么了"', en:'Ask "what\'s wrong"', ko:'"무슨 일이에요?"라고 물어봐요'},
+      {id:'B', zh:'伸手碰了碰他们', en:'Reach out and touch them', ko:'손을 뻗어 파트너를 건드려요'},
+      {id:'C', zh:'坐近了，但没说话', en:'Sit close but don\'t speak', ko:'가까이 앉았지만 말하지 않아요'},
+      {id:'D', zh:'起身去倒水或拿纸巾', en:'Get up to pour water or get tissues', ko:'일어나서 물을 가져오거나 휴지를 가져와요'},
+    ]},
+  { id:16, dimension:'expression',
+    zh:'很久没见，见面那一刻，你脑子里的声音是——',
+    en:'After not seeing each other for a long time, the moment you meet, the voice in your head is—',
+    ko:'오랫동안 못 만났다가 만나는 순간, 머릿속 목소리는—',
+    options:[
+      {id:'A', zh:'"天啊我有好多话要说"', en:'"God, I have so much to say"', ko:'"세상에, 할 말이 너무 많아요"'},
+      {id:'B', zh:'先抱一下再说', en:'Just want to hug first', ko:'먼저 안고 싶어요'},
+      {id:'C', zh:'"让我看你一下"', en:'"Let me just look at you for a moment"', ko:'"잠깐 바라보고 싶어요"'},
+      {id:'D', zh:'"我把今晚都安排好了"', en:'"I\'ve arranged the whole evening"', ko:'"오늘 밤을 다 준비했어요"'},
+    ]},
+  { id:17, dimension:'expression',
+    zh:'你觉得感情有点淡了，你会——',
+    en:'You feel the relationship has grown faded, you would—',
+    ko:'관계가 조금 식은 것 같아요, 당신은—',
+    options:[
+      {id:'A', zh:'想想我们关系里缺了什么，然后调整', en:'Think about what\'s missing in our relationship, then adjust', ko:'우리 관계에 무엇이 부족한지 생각하고 조정해요'},
+      {id:'B', zh:'直接找伴侣谈', en:'Directly find your partner to talk', ko:'직접 파트너를 찾아 이야기해요'},
+      {id:'C', zh:'开始多做一些让他们开心的事', en:'Start doing more things to make them happy', ko:'파트너를 기쁘게 할 일을 더 많이 하기 시작해요'},
+      {id:'D', zh:'多出现在他们周围', en:'Show up around them more', ko:'파트너 주변에 더 많이 나타나요'},
+    ]},
+  { id:18, dimension:'expression',
+    zh:'伴侣做了一件很感动你的事。你的第一反应——',
+    en:'Your partner did something that really moved you. Your first reaction—',
+    ko:'파트너가 정말 감동적인 일을 했어요. 첫 번째 반응은—',
+    options:[
+      {id:'A', zh:'"谢谢你，真的"', en:'"Thank you, really"', ko:'"정말 고마워요"'},
+      {id:'B', zh:'回抱了一下', en:'Return a hug', ko:'안아줬어요'},
+      {id:'C', zh:'看着他们笑了', en:'Look at them and smile', ko:'파트너를 바라보며 웃었어요'},
+      {id:'D', zh:'想着下次要怎么回应这份心意', en:'Think about how you\'ll respond to this kindness next time', ko:'다음에 이 마음을 어떻게 돌려줄지 생각해요'},
+    ]},
+  { id:19, dimension:'expression',
+    zh:'你们之间出现了一个小问题，你想缓和气氛，最可能——',
+    en:'A small problem appeared between you, and you want to ease the atmosphere. You\'re most likely to—',
+    ko:'둘 사이에 작은 문제가 생겼고 분위기를 풀고 싶어요. 가장 가능성 높은 행동은—',
+    options:[
+      {id:'A', zh:'坐到旁边，不急着开口', en:'Sit beside them, not rushing to speak', ko:'옆에 앉아서 서두르지 않아요'},
+      {id:'B', zh:'想着下次怎么避免这种情况', en:'Think about how to prevent this from happening next time', ko:'다음에 이런 상황을 어떻게 피할지 생각해요'},
+      {id:'C', zh:'主动开个玩笑或聊点轻松的', en:'Actively joke or talk about something light', ko:'적극적으로 농담을 하거나 가벼운 이야기를 해요'},
+      {id:'D', zh:'做一顿他们喜欢的饭', en:'Make a meal they like', ko:'파트너가 좋아하는 음식을 만들어요'},
+    ]},
+  { id:20, dimension:'expression',
+    zh:'伴侣生日，你希望他们最记得的是——',
+    en:'For your partner\'s birthday, you hope they\'ll most remember—',
+    ko:'파트너 생일에 가장 기억해줬으면 하는 것은—',
+    options:[
+      {id:'A', zh:'你说的那些话', en:'The words you said', ko:'당신이 한 말'},
+      {id:'B', zh:'你准备的礼物', en:'The gift you prepared', ko:'준비한 선물'},
+      {id:'C', zh:'你陪了他们一整天', en:'That you were with them all day', ko:'하루 종일 함께했다는 것'},
+      {id:'D', zh:'整个生日安排都很用心', en:'That the whole birthday arrangement was thoughtful', ko:'생일 준비 전체가 세심했다는 것'},
+    ]},
+  { id:21, dimension:'expression',
+    zh:'伴侣情绪不好，好像不想说话。你会——',
+    en:'Your partner is in a bad mood and seems not to want to talk. You would—',
+    ko:'파트너가 기분이 안 좋고 말하기 싫어 보여요. 당신은—',
+    options:[
+      {id:'A', zh:'轻声问"要说说吗，还是想安静一下？"', en:'Softly ask "want to talk, or want some quiet time?"', ko:'조용히 "이야기하고 싶어요, 아니면 조용히 있고 싶어요?"라고 물어봐요'},
+      {id:'B', zh:'默默给他们空间，但留在视线范围内', en:'Silently leave them space, but stay within sight', ko:'조용히 공간을 주되 시야 안에 있어요'},
+      {id:'C', zh:'在旁边做自己的事，让他们知道你在', en:'Sit nearby doing your own thing, letting them know you\'re there', ko:'옆에서 자기 일을 하면서 있다는 걸 알려줘요'},
+      {id:'D', zh:'把接下来几天的事都清掉，让他们好好休息', en:'Clear the next few days\' things off so they can rest well', ko:'앞으로 며칠간의 일을 정리해서 잘 쉴 수 있게 해요'},
+    ]},
+  { id:22, dimension:'expression',
+    zh:'在你看来，感情里最能证明爱的事是——',
+    en:'In your opinion, the thing that most proves love in a relationship is—',
+    ko:'관계에서 사랑을 가장 잘 증명하는 것은—',
+    options:[
+      {id:'A', zh:'他们为你做的事', en:'The things they do for you', ko:'파트너가 당신을 위해 하는 일'},
+      {id:'B', zh:'不说话也舒服的时间', en:'Time comfortable without speaking', ko:'말하지 않아도 편안한 시간'},
+      {id:'C', zh:'两个人能一起走过的事', en:'Things two people can go through together', ko:'둘이 함께 헤쳐나갈 수 있는 것'},
+      {id:'D', zh:'两个人能深度交谈', en:'Two people being able to talk deeply', ko:'깊이 대화할 수 있는 것'},
+    ]},
+  { id:23, dimension:'expression',
+    zh:'伴侣说"你最近好像有心事"，你会——',
+    en:'Your partner says "you seem to have something on your mind lately," you would—',
+    ko:'파트너가 "요즘 뭔가 마음에 걸리는 게 있는 것 같아요"라고 해요, 당신은—',
+    options:[
+      {id:'A', zh:'"让我想想怎么说"', en:'Say "let me think about how to tell you"', ko:'"어떻게 말할지 생각해볼게요"라고 해요'},
+      {id:'B', zh:'把心里的事说出来', en:'Tell them what\'s on your mind', ko:'마음속 이야기를 말해요'},
+      {id:'C', zh:'轻轻靠过去说"没事"', en:'Gently lean over and say "it\'s nothing"', ko:'살며시 기대며 "괜찮아요"라고 해요'},
+      {id:'D', zh:'靠着他们蹭了蹭', en:'Lean over and press against them', ko:'파트너에게 기대어요'},
+    ]},
+  { id:24, dimension:'expression',
+    zh:'伴侣感觉最"被爱"的瞬间，通常是——',
+    en:'The moment when your partner most feels "loved," usually is—',
+    ko:'파트너가 가장 "사랑받는다"고 느끼는 순간은 보통—',
+    options:[
+      {id:'A', zh:'你突然说了一句很真实的话', en:'When you suddenly say something very real', ko:'당신이 갑자기 진심 어린 말을 할 때'},
+      {id:'B', zh:'你记住了一件小事并且做到了', en:'When you remember a small thing and act on it', ko:'작은 것을 기억하고 실천했을 때'},
+      {id:'C', zh:'你什么都没做，只是在', en:'When you haven\'t done anything, just being by their side', ko:'아무것도 하지 않고 그냥 옆에 있을 때'},
+      {id:'D', zh:'你把一切都安排得很妥当', en:'When you\'ve arranged everything perfectly', ko:'모든 것을 완벽하게 준비했을 때'},
+    ]},
+  { id:25, dimension:'structure',
+    zh:'你们感情最好的状态，打个比方——',
+    en:'The best state of your relationship, in a metaphor—',
+    ko:'관계의 가장 좋은 상태를 비유하자면—',
+    options:[
+      {id:'A', zh:'两个人住在同一个房间里', en:'Two people living in one room together', ko:'두 사람이 한 방에 사는 것'},
+      {id:'B', zh:'两个房间，中间有一扇相通的门', en:'Two rooms connected by one door', ko:'두 방 사이에 문이 하나 있는 것'},
+      {id:'C', zh:'同一屋顶下各有自己的房间', en:'Each with their own room under the same roof', ko:'같은 지붕 아래 각자의 방이 있는 것'},
+      {id:'D', zh:'同一条街上的两栋相邻的房子', en:'Two neighboring homes on the same street', ko:'같은 거리의 이웃한 두 집'},
+    ]},
+  { id:26, dimension:'structure',
+    zh:'理想的周末是——',
+    en:'The ideal weekend is—',
+    ko:'이상적인 주말은—',
+    options:[
+      {id:'A', zh:'从早到晚都在一起', en:'Together from morning to night', ko:'아침부터 밤까지 함께'},
+      {id:'B', zh:'大部分在一起，但有一点自己的时间', en:'Mostly together, with a little time for yourself', ko:'대부분 함께지만 혼자만의 시간이 조금 있어요'},
+      {id:'C', zh:'白天各做各的，晚上在一起', en:'Each doing your own thing during the day, together at night', ko:'낮에는 각자 하고 밤에 함께해요'},
+      {id:'D', zh:'想见就见，不想见各做各的', en:'Meet when you want, each doing your own thing when you don\'t', ko:'만나고 싶을 때 만나고 아니면 각자 해요'},
+    ]},
+  { id:27, dimension:'structure',
+    zh:'伴侣有个你完全不感兴趣的爱好。三个月后——',
+    en:'Your partner has a hobby you have zero interest in. Three months later—',
+    ko:'파트너에게 전혀 흥미 없는 취미가 있어요. 3개월 후—',
+    options:[
+      {id:'A', zh:'我知道他们周末在做这件事，这就够了', en:'I know they\'re doing this on weekends, and that\'s enough', ko:'주말에 이걸 한다는 것만 알아요, 그걸로 충분해요'},
+      {id:'B', zh:'这个爱好叫什么我都记不太清', en:'I can barely remember what this hobby is', ko:'이 취미가 뭔지도 잘 기억 못해요'},
+      {id:'C', zh:'我现在大概也知道这个爱好是什么了', en:'I roughly know what this hobby is about now too', ko:'이제 이 취미가 무엇인지 대략 알아요'},
+      {id:'D', zh:'我能说出他们为什么喜欢，但我自己不做', en:'I can tell you why they love it, but I don\'t do it myself', ko:'왜 좋아하는지 말할 수 있지만 직접 하진 않아요'},
+    ]},
+  { id:28, dimension:'structure',
+    zh:'关于"两个人要不要什么都分享"——',
+    en:'About "whether two people should share everything"—',
+    ko:'"두 사람이 모든 것을 공유해야 하는가"에 대해—',
+    options:[
+      {id:'A', zh:'基本都应该分享，否则不够亲密', en:'Basically everything should be shared, otherwise it\'s not real intimacy', ko:'기본적으로 다 공유해야 해요, 그렇지 않으면 진정한 친밀함이 아니에요'},
+      {id:'B', zh:'重要的事分享就够了', en:'Sharing the important things is enough', ko:'중요한 것만 공유하면 충분해요'},
+      {id:'C', zh:'给彼此留一点空间是健康的', en:'Keeping some space for each other is healthy', ko:'서로 공간을 두는 것이 건강해요'},
+      {id:'D', zh:'每个人都有不想被知道的事，很正常', en:'Everyone has things they don\'t want known, and that\'s normal', ko:'모든 사람에게 알리고 싶지 않은 것이 있는 건 정상이에요'},
+    ]},
+  { id:29, dimension:'structure',
+    zh:'伴侣有一群你不太认识的朋友，经常聚。',
+    en:'Your partner has a group of friends you don\'t really know, who often gather.',
+    ko:'파트너에게 잘 모르는 친구들이 있고 자주 모여요.',
+    options:[
+      {id:'A', zh:'希望多参与，慢慢成为其中一员', en:'Hope to participate more, slowly become part of it', ko:'더 참여하고 싶고 서서히 일원이 되고 싶어요'},
+      {id:'B', zh:'去过一两次，之后随他们', en:'Been once or twice, after that up to them', ko:'한두 번 가봤고 그 이후는 파트너한테 맡겨요'},
+      {id:'C', zh:'不需要我参与，那是他们的圈子', en:'Don\'t need me to join, that\'s their circle', ko:'제가 참여할 필요 없어요, 파트너의 모임이에요'},
+      {id:'D', zh:'我有我的圈子，他们有他们的', en:'I have my circle, they have theirs', ko:'저는 제 모임이 있고 파트너는 파트너 모임이 있어요'},
+    ]},
+  { id:30, dimension:'structure',
+    zh:'伴侣今天不想告诉你他们在想什么。你的感受——',
+    en:'Your partner doesn\'t want to tell you what they\'re thinking today. Your feeling—',
+    ko:'파트너가 오늘 무슨 생각을 하는지 말하고 싶지 않아요. 당신의 느낌—',
+    options:[
+      {id:'A', zh:'尊重，但希望之后告诉我', en:'Respect, but hope they tell me later', ko:'존중하지만 나중에 말해줬으면 해요'},
+      {id:'B', zh:'心里有点空，不太舒服', en:'Inside feels a little empty, not very comfortable', ko:'마음이 조금 비어있고 편하지 않아요'},
+      {id:'C', zh:'没问题，我自己也经常这样', en:'No problem, I\'m often like this myself', ko:'괜찮아요, 저도 자주 그러니까요'},
+      {id:'D', zh:'完全没问题，每个人都有这样的时候', en:'Totally fine, everyone has times like this', ko:'완전히 괜찮아요, 누구나 그럴 때가 있어요'},
+    ]},
+  { id:31, dimension:'structure',
+    zh:'你做了一个重要决定（换工作、搬家等），想和伴侣商量。',
+    en:'You made an important decision (job change, moving, etc.), and want to discuss with your partner.',
+    ko:'중요한 결정을 했고(직업 변경, 이사 등) 파트너와 상의하고 싶어요.',
+    options:[
+      {id:'A', zh:'决定之前，希望他们全程参与', en:'Before deciding, I hope they\'re fully involved', ko:'결정하기 전에 파트너가 전 과정에 참여했으면 해요'},
+      {id:'B', zh:'决定前告诉他们，听听意见', en:'Tell them before deciding, listen to their opinion', ko:'결정 전에 말하고 의견을 들어요'},
+      {id:'C', zh:'决定之后再分享', en:'Share with them after deciding', ko:'결정한 후에 공유해요'},
+      {id:'D', zh:'除非影响到他们，否则这是我自己的事', en:'Unless it affects them, this is my own business', ko:'파트너에게 영향이 없으면 내 일이에요'},
+    ]},
+  { id:32, dimension:'structure',
+    zh:'你觉得感情里"我们"这个词应该——',
+    en:'You feel the word "we" in a relationship should—',
+    ko:'관계에서 "우리"라는 단어는—',
+    options:[
+      {id:'A', zh:'越来越多地替代"我"和"你"', en:'Increasingly replace "I" and "you"', ko:'점점 "나"와 "당신"을 대체해야 해요'},
+      {id:'B', zh:'自然地和"我"、"你"并存', en:'Appear naturally alongside "I" and "you"', ko:'"나"와 "당신"과 자연스럽게 공존해야 해요'},
+      {id:'C', zh:'只在说共同事情时用', en:'Only be used when talking about shared things', ko:'공유하는 것에 대해 이야기할 때만 사용해요'},
+      {id:'D', zh:'不需要刻意强调，两个人在就够了', en:'No need to deliberately emphasize, just two people being there is enough', ko:'굳이 강조할 필요 없고 둘이 함께 있는 것으로 충분해요'},
+    ]},
+  { id:33, dimension:'structure',
+    zh:'伴侣想独自去旅行两周。',
+    en:'Your partner wants to travel alone for two weeks.',
+    ko:'파트너가 혼자 2주 여행을 가고 싶어해요.',
+    options:[
+      {id:'A', zh:'完全OK，偶尔联系就好', en:'Totally OK, occasional contact is fine', ko:'완전히 OK, 가끔 연락하면 돼요'},
+      {id:'B', zh:'可以接受，但希望保持每天联系', en:'Can accept, but hope to keep daily contact', ko:'받아들일 수 있지만 매일 연락하길 바라요'},
+      {id:'C', zh:'太好了，我也趁这段时间做自己的事', en:'That\'s great, I\'ll do my own things during this time too', ko:'잘됐어요, 저도 이 시간에 제 일을 할게요'},
+      {id:'D', zh:'希望一起去，或者至少一起计划', en:'Hope to go together, or at least plan together', ko:'함께 가거나 적어도 함께 계획하길 바라요'},
+    ]},
+  { id:34, dimension:'structure',
+    zh:'你们之间最理想的联系频率是——',
+    en:'The most ideal communication frequency between you is—',
+    ko:'가장 이상적인 연락 빈도는—',
+    options:[
+      {id:'A', zh:'每天很多次，分享日常小事', en:'Many times a day, sharing small daily things', ko:'하루에 여러 번, 일상의 작은 것들을 공유해요'},
+      {id:'B', zh:'每天一两次重要的对话', en:'One or two important conversations a day', ko:'하루에 한두 번 중요한 대화를 해요'},
+      {id:'C', zh:'有事说，没事不一定联系', en:'Talk when there\'s something, don\'t have to if there isn\'t', ko:'할 말이 있을 때 연락하고 없으면 안 해도 돼요'},
+      {id:'D', zh:'想到了就联系，不想到就算了', en:'Talk if you think of it, let it pass if you don\'t', ko:'생각나면 연락하고 아니면 그냥 넘겨요'},
+    ]},
+  { id:35, dimension:'structure',
+    zh:'关于"爱让人变成更好的自己"——你的感受是——',
+    en:'Regarding "love makes people become better versions of themselves"—your feeling is—',
+    ko:'"사랑이 더 나은 사람이 되게 한다"에 대한 생각은—',
+    options:[
+      {id:'A', zh:'我希望在爱里慢慢成为那个更好的人', en:'I hope to slowly become that better person in love', ko:'사랑 안에서 서서히 더 나은 사람이 되길 바라요'},
+      {id:'B', zh:'我们会互相影响，一起成长', en:'We\'ll influence each other, grow together', ko:'서로 영향을 주고 함께 성장할 거예요'},
+      {id:'C', zh:'变好是我自己的事，和关系无关', en:'Becoming better is my own thing, unrelated to the relationship', ko:'더 나아지는 건 내 일이고 관계와 무관해요'},
+      {id:'D', zh:'做自己就好，不需要因为爱而改变', en:'Just stay yourself, no need to change because of love', ko:'그냥 자신이면 돼요, 사랑 때문에 바뀔 필요 없어요'},
+    ]},
+  { id:36, dimension:'structure',
+    zh:'感情长期健康的关键在于——',
+    en:'The key to a relationship being long-term healthy is—',
+    ko:'관계가 장기적으로 건강하기 위한 핵심은—',
+    options:[
+      {id:'A', zh:'尊重彼此各自的世界', en:'Respecting each other\'s worlds', ko:'서로의 세계를 존중하는 것'},
+      {id:'B', zh:'给彼此足够的自由', en:'Giving each other enough freedom', ko:'서로에게 충분한 자유를 주는 것'},
+      {id:'C', zh:'两个人的心在一起', en:'Two people\'s hearts being together', ko:'두 사람의 마음이 함께 있는 것'},
+      {id:'D', zh:'有自己，也有我们', en:'Having yourself, and having us', ko:'자신도 있고 우리도 있는 것'},
+    ]},
+  { id:37, dimension:'conflict',
+    zh:'你们在聊事情，伴侣说了一句让你很不舒服的话。',
+    en:'You two are talking about something, and your partner says something that made you very uncomfortable.',
+    ko:'이야기하다 파트너가 매우 불편한 말을 했어요.',
+    options:[
+      {id:'A', zh:'立刻说"你刚才那句话让我很不舒服"', en:'Immediately say "what you just said made me uncomfortable"', ko:'바로 "방금 하신 말이 정말 불편했어요"라고 말해요'},
+      {id:'B', zh:'先停一下，整理一下感受再回应', en:'Pause first, sort out your feelings before responding', ko:'먼저 멈추고 감정을 정리한 후 반응해요'},
+      {id:'C', zh:'用半开玩笑的方式把气氛带回来', en:'Bring the atmosphere back with a half-joke', ko:'반농담으로 분위기를 돌려요'},
+      {id:'D', zh:'这次算了，假装没听见', en:'Let it go this time, pretend you didn\'t hear', ko:'이번엔 그냥 넘기고 못 들은 척해요'},
+    ]},
+  { id:38, dimension:'conflict',
+    zh:'吵到一半，你发现自己越来越激动。',
+    en:'Mid-argument, you notice you\'re getting more and more worked up.',
+    ko:'싸우다 보니 점점 흥분되는 걸 느껴요.',
+    options:[
+      {id:'A', zh:'继续说，事情要说清楚', en:'Keep going, things need to be said clearly', ko:'계속해요, 말해야 해요'},
+      {id:'B', zh:'主动暂停："我先冷静一下，再继续谈"', en:'Actively pause: "let me cool down first and then we\'ll talk"', ko:'적극적으로 멈춰요: "먼저 진정하고 계속 이야기해요"'},
+      {id:'C', zh:'换个话题，先把温度降下来', en:'Change the subject, cool the atmosphere first', ko:'주제를 바꿔 분위기를 먼저 식혀요'},
+      {id:'D', zh:'不说了，让他们赢这次', en:'Stop speaking, let them win this one', ko:'말을 멈추고 파트너가 이번엔 이기도록 해요'},
+    ]},
+  { id:39, dimension:'conflict',
+    zh:'吵完架的第一个晚上，你们背对背躺着。你——',
+    en:'The first night after an argument, you two lie in bed with your backs to each other. You—',
+    ko:'싸우고 난 첫날 밤, 등을 돌리고 누워 있어요. 당신은—',
+    options:[
+      {id:'A', zh:'伸手过去，"我们聊聊吧"', en:'Reach over, "let\'s talk"', ko:'손을 뻗으며 "이야기해요"라고 해요'},
+      {id:'B', zh:'需要时间，今晚就这样吧', en:'Need time, let tonight pass this way', ko:'시간이 필요해요, 오늘 밤은 이렇게 지내요'},
+      {id:'C', zh:'发了一条轻柔的"晚安"', en:'Send a soft "goodnight"', ko:'부드러운 "잘 자요"를 보내요'},
+      {id:'D', zh:'就这样睡吧，等明天', en:'Just sleep like this, wait for tomorrow', ko:'이대로 자고 내일을 기다려요'},
+    ]},
+  { id:40, dimension:'conflict',
+    zh:'冷战已经两天，你注意到伴侣好像也在等你。',
+    en:'The silent treatment has lasted two days, and you notice your partner also seems to be waiting for you.',
+    ko:'냉전이 이틀째예요, 파트너도 기다리는 것 같아요.',
+    options:[
+      {id:'A', zh:'我先开口，这样耗着太累了', en:'I\'ll speak first, this state is too exhausting', ko:'내가 먼저 말할게요, 이렇게 있는 건 너무 힘들어요'},
+      {id:'B', zh:'我还没想清楚，想清楚了再说', en:'I haven\'t figured it out yet, I\'ll speak when I have', ko:'아직 정리가 안 됐어요, 정리되면 말할게요'},
+      {id:'C', zh:'做顿饭，或者递杯水，让气氛融化', en:'Make a meal, or hand them water, let the atmosphere melt', ko:'밥을 하거나 물을 건네서 분위기를 풀어요'},
+      {id:'D', zh:'继续等，看谁先服软', en:'Keep waiting, see who concedes first', ko:'계속 기다려요, 누가 먼저 양보하는지 봐요'},
+    ]},
+  { id:41, dimension:'conflict',
+    zh:'伴侣做了一件你觉得"越界"的事。你的反应——',
+    en:'Your partner did something you feel "crossed a line." Your reaction—',
+    ko:'파트너가 "선을 넘었다"고 느끼는 일을 했어요. 반응은—',
+    options:[
+      {id:'A', zh:'"我们需要谈谈这件事"', en:'"We have to talk this through"', ko:'"이것에 대해 이야기해야 해요"'},
+      {id:'B', zh:'先不说，但认真想这意味着什么', en:'Don\'t say anything yet, but seriously think about what this really means', ko:'아직 말하지 않고 이것이 무엇을 의미하는지 진지하게 생각해요'},
+      {id:'C', zh:'心里不舒服，但想"算了，以后避开就好"', en:'Uncomfortable inside, but think "forget it, avoid it next time"', ko:'마음이 불편하지만 "됐어, 다음엔 피하자"라고 생각해요'},
+      {id:'D', zh:'没说，但记在心里了', en:'Don\'t say anything, but keep score inside', ko:'말하지 않지만 마음속에 기억해둬요'},
+    ]},
+  { id:42, dimension:'conflict',
+    zh:'伴侣伤害了你，道歉了，但你还没有完全放下。',
+    en:'Your partner hurt you, apologized, but you haven\'t fully let go.',
+    ko:'파트너가 상처를 줬고 사과했지만 아직 완전히 내려놓지 못했어요.',
+    options:[
+      {id:'A', zh:'告诉他们"道歉我接受，但我还在消化"', en:'Tell them "I accept the apology, but I\'m still digesting"', ko:'"사과는 받아들여요, 하지만 아직 소화 중이에요"라고 말해요'},
+      {id:'B', zh:'需要一个人想清楚，不需要马上回应', en:'Need time to think alone, don\'t need to respond immediately', ko:'혼자 생각을 정리할 시간이 필요해요, 바로 반응할 필요 없어요'},
+      {id:'C', zh:'表面过去了，先让关系回归正常', en:'On the surface it\'s passed, let the relationship return to normal first', ko:'표면적으로는 넘어가고 관계를 먼저 정상화해요'},
+      {id:'D', zh:'不说，但默默带着这个感受', en:'Don\'t say it, but silently carry this feeling', ko:'말하지 않고 조용히 이 감정을 안고 가요'},
+    ]},
+  { id:43, dimension:'conflict',
+    zh:'你意识到刚才说的话可能伤害了伴侣。',
+    en:'You realize what you just said might have hurt your partner.',
+    ko:'방금 한 말이 파트너에게 상처를 줬을 수 있다는 걸 깨달았어요.',
+    options:[
+      {id:'A', zh:'马上说"对不起，我刚才说错了"', en:'Immediately say "I\'m sorry, what I said was wrong"', ko:'바로 "미안해요, 제가 잘못 말했어요"라고 해요'},
+      {id:'B', zh:'先观察他们反应，再想怎么道歉', en:'Observe their reaction first, think about how to apologize', ko:'먼저 반응을 살피고 어떻게 사과할지 생각해요'},
+      {id:'C', zh:'用行动弥补——拥抱、倒水、转移', en:'Make up for it with an action—hug, water, diversion', ko:'행동으로 보충해요—안기, 물 가져오기, 전환'},
+      {id:'D', zh:'希望他们没有太介意，让它过去', en:'Hope they didn\'t mind too much, let it pass', ko:'너무 신경 쓰지 않았으면 하고 넘기길 바라요'},
+    ]},
+  { id:44, dimension:'conflict',
+    zh:'你意识到最近这次冲突，其实是你的责任。',
+    en:'You realize your recent conflict is actually your responsibility.',
+    ko:'최근 갈등이 사실 자신의 책임이라는 걸 깨달았어요.',
+    options:[
+      {id:'A', zh:'主动承认："对不起，我当时处理得不好"', en:'Actively admit: "I\'m sorry, I didn\'t handle it well at the time"', ko:'적극적으로 인정해요: "미안해요, 그때 잘 처리하지 못했어요"'},
+      {id:'B', zh:'想清楚自己哪里错了再开口', en:'Think through where you were wrong before speaking', ko:'어디서 잘못했는지 생각한 후에 말해요'},
+      {id:'C', zh:'做点什么补救，不一定要说出来', en:'Do something to make up for it, doesn\'t have to be said', ko:'뭔가 보충을 해요, 꼭 말할 필요는 없어요'},
+      {id:'D', zh:'下次注意，这次不提了', en:'Pay attention next time, don\'t bring it up this time', ko:'다음에 주의하고 이번엔 꺼내지 않아요'},
+    ]},
+  { id:45, dimension:'conflict',
+    zh:'你们在一件重要的事上想法不同，发现这不是小分歧。',
+    en:'You two have different thoughts on something important, and find this isn\'t a small disagreement.',
+    ko:'중요한 것에 대해 생각이 다르고 작은 차이가 아님을 알았어요.',
+    options:[
+      {id:'A', zh:'那就好好谈，不要绕圈子', en:'Then let\'s talk it through properly, no dancing around', ko:'제대로 이야기해요, 돌려 말하지 말아요'},
+      {id:'B', zh:'我需要先想清楚我到底想要什么', en:'I need to first think about what I actually want', ko:'내가 실제로 무엇을 원하는지 먼저 생각해야 해요'},
+      {id:'C', zh:'先搁置，找个两个人都舒服的方式慢慢来', en:'Set it aside first, find a way comfortable for both of us to approach it slowly', ko:'먼저 내려놓고 둘 다 편한 방식으로 천천히 접근해요'},
+      {id:'D', zh:'我可以跟着他们的想法', en:'I can go along with their thoughts', ko:'파트너의 생각을 따를 수 있어요'},
+    ]},
+  { id:46, dimension:'conflict',
+    zh:'同一件事——已经聊了好几次了，还是谈不拢。',
+    en:'The same thing—you\'ve talked about it several times and still can\'t agree.',
+    ko:'같은 것—여러 번 이야기했지만 여전히 합의가 안 돼요.',
+    options:[
+      {id:'A', zh:'"今天我们真的要得出个结果"', en:'"Today we really need to reach a result"', ko:'"오늘은 정말 결론을 내야 해요"'},
+      {id:'B', zh:'"我们暂停一下，各自想想"', en:'"Let\'s pause, each think about it"', ko:'"잠깐 멈추고 각자 생각해봐요"'},
+      {id:'C', zh:'"我们换个方式谈，这样不行"', en:'"Let\'s change the way we\'re discussing, this isn\'t working"', ko:'"이야기 방식을 바꿔요, 이렇게는 안 돼요"'},
+      {id:'D', zh:'"算了，这件事我退一步"', en:'"Forget it, I\'ll step back on this"', ko:'"됐어요, 이건 제가 한 발 물러날게요"'},
+    ]},
+  { id:47, dimension:'conflict',
+    zh:'你发现你一直在让步，伴侣可能没有意识到。',
+    en:'You notice you\'ve been yielding all along, and your partner may not realize.',
+    ko:'계속 양보해왔는데 파트너는 모를 수도 있어요.',
+    options:[
+      {id:'A', zh:'找个时机说"我也需要被看见"', en:'Find a moment to say "I need to be seen too"', ko:'기회를 찾아 "저도 보여져야 해요"라고 말해요'},
+      {id:'B', zh:'先想清楚哪些让步是不必要的', en:'First think clearly about which yieldings were unnecessary', ko:'먼저 어떤 양보가 불필요했는지 명확히 생각해요'},
+      {id:'C', zh:'想办法让他们渐渐注意到', en:'Find ways to let them gradually notice', ko:'파트너가 서서히 알아채도록 방법을 찾아요'},
+      {id:'D', zh:'就这样吧，反正是我自己选的', en:'Keep going like this, after all, it\'s my choice', ko:'그냥 이렇게 가요, 어차피 내가 선택한 거예요'},
+    ]},
+  { id:48, dimension:'conflict',
+    zh:'你有一些一直没说出口的小不满，已经积累了一段时间。',
+    en:'You have some unspoken small dissatisfactions that have been accumulating.',
+    ko:'말하지 않은 작은 불만들이 한동안 쌓여왔어요.',
+    options:[
+      {id:'A', zh:'找个好时机，一次说清楚', en:'Find a good moment to say them all at once', ko:'좋은 기회를 찾아 한번에 다 말해요'},
+      {id:'B', zh:'先自己想哪些是真正重要的', en:'Think myself first about which are really important', ko:'먼저 어떤 것이 정말 중요한지 생각해요'},
+      {id:'C', zh:'多一些正向互动来改善关系，不提那些', en:'Use more positive interactions to improve the relationship, don\'t bring up those', ko:'더 긍정적인 상호작용으로 관계를 개선하고 그것들은 꺼내지 않아요'},
+      {id:'D', zh:'就搁在那里，也许慢慢就不在意了', en:'Keep leaving them there, maybe I\'ll gradually stop minding', ko:'그냥 거기 두어요, 서서히 신경 안 쓰게 될 수도 있어요'},
+    ]},
 ]

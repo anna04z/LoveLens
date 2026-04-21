@@ -46,6 +46,18 @@ export default function TestPage() {
   const total = questions.length
   const progress = ((current + 1) / total) * 100
 
+  const getQuestionText = () => {
+    if (lang === 'ko') return question.ko
+    if (lang === 'en') return question.en
+    return question.zh
+  }
+
+  const getOptionText = (opt: typeof question.options[0]) => {
+    if (lang === 'ko') return opt.ko
+    if (lang === 'en') return opt.en
+    return opt.zh
+  }
+
   const toggleOption = (optId: string) => {
     setAnswers(prev => {
       const curr = [...prev[current]]
@@ -98,7 +110,7 @@ export default function TestPage() {
         {/* 题目 */}
         <div className="bg-white rounded-2xl p-6 shadow-sm">
           <p className="text-gray-800 font-medium text-base leading-relaxed">
-            {lang === 'ko' ? question.ko : question.zh}
+            {getQuestionText()}
           </p>
         </div>
 
@@ -131,7 +143,7 @@ export default function TestPage() {
                 <span className={`text-sm leading-relaxed pt-0.5 ${
                   isSelected ? 'text-gray-800' : 'text-gray-500'
                 }`}>
-                  {lang === 'ko' ? opt.ko : opt.zh}
+                  {getOptionText(opt)}
                 </span>
               </button>
             )

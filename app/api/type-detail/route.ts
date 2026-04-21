@@ -2,14 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import fs from 'fs'
 import path from 'path'
 
-// 每个类型在文档里的标题对应关系
-const TYPE_HEADERS: Record<number, string> = {
-  1: '№1', 2: '№2', 3: '№3', 4: '№4', 5: '№5', 6: '№6',
-  7: '№7', 8: '№8', 9: '№9', 10: '№10', 11: '№11', 12: '№12',
-  13: '№13', 14: '№14', 15: '№15', 16: '№16', 17: '№17', 18: '№18',
-  19: '№19', 20: '№20', 21: '№21', 22: '№22', 23: '№23', 24: '№24',
-}
-
 const DOC_FILES: Record<string, Record<number, string>> = {
   zh: {
     1: 'LoveLens_01_安全型家族.md', 2: 'LoveLens_01_安全型家族.md',
@@ -56,20 +48,27 @@ const DOC_FILES: Record<string, Record<number, string>> = {
 }
 
 function extractTypeSection(content: string, typeNum: number): string {
-  const header = TYPE_HEADERS[typeNum]
   const lines = content.split('\n')
   let start = -1
   let end = -1
 
+  // 精确匹配：# №6 开头（只有 # 号标题，且紧接着就是 №数字）
+  const exactPattern = new RegExp(`^#+\\s*№${typeNum}\\s`)
+
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i]
-    if (start === -1 && line.includes(header + ' ') && line.startsWith('#')) {
-      start = i
+
+    if (start === -1) {
+      if (exactPattern.test(line)) {
+        start = i
+      }
       continue
     }
-    if (start !== -1 && i > start + 2) {
-      const nextNum = typeNum + 1
-      if (nextNum <= 24 && line.includes('№' + nextNum + ' ') && line.startsWith('#')) {
+
+    // 找结束：遇到其他 №X 的顶级标题
+    if (i > start + 2 && /^#+\s*№(\d+)\s/.test(line)) {
+      const match = /^#+\s*№(\d+)\s/.exec(line)
+      if (match && parseInt(match[1]) !== typeNum) {
         end = i
         break
       }
@@ -78,16 +77,19 @@ function extractTypeSection(content: string, typeNum: number): string {
 
   if (start === -1) return ''
   const section = lines.slice(start, end === -1 ? undefined : end).join('\n')
-  
-  // 找到要약 버전 / 短版 之前的内容（去掉摘要部分）
-  const shortVersionMarkers = ['## 🌿 短版', '## 🌿 요약 버전', '## 🌿 Short Version']
+
+  // 去掉摘要部分
+  const shortVersionMarkers = [
+    '## 🌿 短版', '## 🌿 요약 버전', '## 🌿 Short Version',
+    '## 🌿 요약', '## Short Version', '## 短版'
+  ]
   for (const marker of shortVersionMarkers) {
     const markerIdx = section.indexOf(marker)
     if (markerIdx !== -1) {
       return section.slice(0, markerIdx).trim()
     }
   }
-  
+
   return section.trim()
 }
 

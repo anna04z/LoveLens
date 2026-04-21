@@ -5,9 +5,9 @@ import { useRouter, usePathname } from 'next/navigation'
 type Lang = 'zh' | 'en' | 'ko'
 
 const labels = {
-  zh: { home: '首页', letters: '字母', mixed: '混合', about: '关于' },
-  en: { home: 'Home', letters: 'Letters', mixed: 'Mixed', about: 'About' },
-  ko: { home: '홈', letters: '글자', mixed: '혼합', about: '소개' },
+  zh: { home: '首页', families: '家族', letters: '字母', mixed: '混合', about: '关于' },
+  en: { home: 'Home', families: 'Families', letters: 'Letters', mixed: 'Mixed', about: 'About' },
+  ko: { home: '홈', families: '가족', letters: '글자', mixed: '혼합', about: '소개' },
 }
 
 export default function BottomNav({ lang }: { lang: Lang }) {
@@ -17,6 +17,7 @@ export default function BottomNav({ lang }: { lang: Lang }) {
 
   const items = [
     { key: 'home', label: t.home, emoji: '🏠', path: '/' },
+    { key: 'families', label: t.families, emoji: '🌸', path: '/families' },
     { key: 'letters', label: t.letters, emoji: '🔤', path: '/letters' },
     { key: 'mixed', label: t.mixed, emoji: '🌀', path: '/mixed' },
     { key: 'about', label: t.about, emoji: '📖', path: '/about' },
@@ -36,7 +37,7 @@ export default function BottomNav({ lang }: { lang: Lang }) {
       padding: '8px 16px',
     }}>
       {items.map(item => {
-        const isActive = pathname === item.path
+        const isActive = pathname === item.path || pathname.startsWith(item.path + '/')
         return (
           <button
             key={item.key}
@@ -46,7 +47,7 @@ export default function BottomNav({ lang }: { lang: Lang }) {
               flexDirection: 'column',
               alignItems: 'center',
               gap: '2px',
-              padding: '4px 12px',
+              padding: '4px 8px',
               border: 'none',
               background: 'none',
               cursor: 'pointer',
