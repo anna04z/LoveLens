@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import BottomNav from './BottomNav'
 
 const content = {
   zh: {
@@ -52,59 +53,55 @@ export default function Home() {
   const router = useRouter()
   const t = content[lang]
 
-  const handleStart = () => {
-    router.push(`/test?lang=${lang}`)
-  }
-
   return (
-    <main className="min-h-screen bg-rose-50 flex flex-col items-center px-6 py-12">
+    <>
+      <main className="min-h-screen bg-rose-50 flex flex-col items-center px-6 py-12 pb-24">
 
-      {/* 标题 */}
-      <div className="text-center mb-10">
-        <h1 className="text-5xl font-bold text-rose-400 mb-3">💕 {t.title}</h1>
-        <p className="text-rose-300 text-lg">{t.subtitle}</p>
-      </div>
+        <div className="text-center mb-10">
+          <h1 className="text-5xl font-bold text-rose-400 mb-3">💕 {t.title}</h1>
+          <p className="text-rose-300 text-lg">{t.subtitle}</p>
+        </div>
 
-      {/* 语言选择 */}
-      <div className="w-full max-w-xl bg-white rounded-2xl p-6 shadow-sm mb-8">
-        <p className="text-gray-500 text-sm mb-3 text-center">{t.chooseLanguage}</p>
-        <div className="flex gap-3 justify-center">
-          {(['zh', 'en', 'ko'] as Lang[]).map((l) => (
-            <button
-              key={l}
-              onClick={() => setLang(l)}
-              className={`px-6 py-2.5 rounded-full text-sm font-medium transition-all ${
-                lang === l
-                  ? 'bg-rose-400 text-white shadow-sm'
-                  : 'bg-rose-50 text-rose-400 border border-rose-200'
-              }`}
-            >
-              {l === 'zh' ? '中文' : l === 'en' ? 'English' : '한국어'}
-            </button>
+        <div className="w-full max-w-xl bg-white rounded-2xl p-6 shadow-sm mb-8">
+          <p className="text-gray-500 text-sm mb-3 text-center">{t.chooseLanguage}</p>
+          <div className="flex gap-3 justify-center">
+            {(['zh', 'en', 'ko'] as Lang[]).map((l) => (
+              <button
+                key={l}
+                onClick={() => setLang(l)}
+                className={`px-6 py-2.5 rounded-full text-sm font-medium transition-all ${
+                  lang === l
+                    ? 'bg-rose-400 text-white shadow-sm'
+                    : 'bg-rose-50 text-rose-400 border border-rose-200'
+                }`}
+              >
+                {l === 'zh' ? '中文' : l === 'en' ? 'English' : '한국어'}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="w-full max-w-xl flex flex-col gap-4 mb-10">
+          {t.sections.map((s, i) => (
+            <div key={i} className="bg-white rounded-2xl p-6 shadow-sm">
+              <div className="text-2xl mb-2">{s.emoji}</div>
+              <h2 className="font-semibold text-gray-800 mb-1">{s.title}</h2>
+              <p className="text-gray-500 text-sm leading-relaxed">{s.body}</p>
+            </div>
           ))}
         </div>
-      </div>
 
-      {/* 内容卡片 */}
-      <div className="w-full max-w-xl flex flex-col gap-4 mb-10">
-        {t.sections.map((s, i) => (
-          <div key={i} className="bg-white rounded-2xl p-6 shadow-sm">
-            <div className="text-2xl mb-2">{s.emoji}</div>
-            <h2 className="font-semibold text-gray-800 mb-1">{s.title}</h2>
-            <p className="text-gray-500 text-sm leading-relaxed">{s.body}</p>
-          </div>
-        ))}
-      </div>
+        <button
+          onClick={() => router.push(`/test?lang=${lang}`)}
+          className="bg-rose-400 hover:bg-rose-500 text-white text-lg font-semibold px-12 py-4 rounded-full shadow-md transition-all"
+        >
+          {t.start} ☁️
+        </button>
 
-      {/* 开始按钮 */}
-      <button
-        onClick={handleStart}
-        className="bg-rose-400 hover:bg-rose-500 text-white text-lg font-semibold px-12 py-4 rounded-full shadow-md transition-all"
-      >
-        {t.start} ☁️
-      </button>
+        <p className="mt-8 text-rose-300 text-xs">🌹 设计不是为了判决，是为了让你被看见。</p>
 
-      <p className="mt-8 text-rose-300 text-xs">🌹 设计不是为了判决，是为了让你被看见。</p>
-    </main>
+      </main>
+      <BottomNav lang={lang} />
+    </>
   )
 }

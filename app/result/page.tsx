@@ -5,6 +5,7 @@ import ReactMarkdown from 'react-markdown'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { questions } from '../questions'
 import { findMainType } from '../types'
+import BottomNav from '../BottomNav'
 
 type Lang = 'zh' | 'en' | 'ko'
 
@@ -286,7 +287,8 @@ export default function ResultPage() {
           </div>
         </div>
 
-      </div>
+     </div>
+      <BottomNav lang={lang} />
     </div>
   )
 }
