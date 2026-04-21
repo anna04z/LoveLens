@@ -1,9 +1,10 @@
 'use client'
 
 import { useState } from 'react'
+import ReactMarkdown from 'react-markdown'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { questions } from '../questions'
-import { TYPES_24, findMainType } from '../types'
+import { findMainType } from '../types'
 
 type Lang = 'zh' | 'en' | 'ko'
 
@@ -86,9 +87,9 @@ const dimLabels = {
 const dimColors = ['bg-blue-100 text-blue-600','bg-green-100 text-green-600','bg-yellow-100 text-yellow-600','bg-red-100 text-red-600']
 
 const ui = {
-  zh: { title:'你的 LoveLens 代码', subtitle:'这是一面镜子，不是判决 🌷', type:'你最接近的类型', expand:'展开完整类型说明 ↓', collapse:'收起 ↑', strengths:'✨ 优势', watchouts:'🌱 注意', letter:'💌 给自己', again:'再做一次', share:'复制分享链接', copied:'已复制！', note:'面对不同的人，你会是不同的你。这不是最终答案，是一个起点。' },
-  en: { title:'Your LoveLens Code', subtitle:'This is a mirror, not a verdict 🌷', type:'Your closest type', expand:'Expand full type description ↓', collapse:'Collapse ↑', strengths:'✨ Strengths', watchouts:'🌱 Watch out for', letter:'💌 A note to yourself', again:'Take Again', share:'Copy share link', copied:'Copied!', note:'You become a different you with different people. This is a starting point, not a final answer.' },
-  ko: { title:'당신의 LoveLens 코드', subtitle:'이건 거울이에요, 판결이 아니에요 🌷', type:'가장 가까운 유형', expand:'전체 유형 설명 펼치기 ↓', collapse:'접기 ↑', strengths:'✨ 강점', watchouts:'🌱 눈여겨볼 부분', letter:'💌 자신에게 건네는 한마디', again:'다시 하기', share:'공유 링크 복사', copied:'복사됐어요!', note:'다른 사람 앞에서는 다른 당신이 돼요. 이건 최종 답이 아니라 출발점이에요.' },
+  zh: { title:'你的 LoveLens 代码', subtitle:'这是一面镜子，不是判决 🌷', type:'你最接近的类型', expand:'展开完整类型说明 ↓', collapse:'收起 ↑', strengths:'✨ 优势', watchouts:'🌱 注意', letter:'💌 给自己', again:'再做一次', share:'复制分享链接', copied:'已复制！', note:'面对不同的人，你会是不同的你。这不是最终答案，是一个起点。', loading:'读取中...' },
+  en: { title:'Your LoveLens Code', subtitle:'This is a mirror, not a verdict 🌷', type:'Your closest type', expand:'Expand full type description ↓', collapse:'Collapse ↑', strengths:'✨ Strengths', watchouts:'🌱 Watch out for', letter:'💌 A note to yourself', again:'Take Again', share:'Copy share link', copied:'Copied!', note:'You become a different you with different people. This is a starting point, not a final answer.', loading:'Loading...' },
+  ko: { title:'당신의 LoveLens 코드', subtitle:'이건 거울이에요, 판결이 아니에요 🌷', type:'가장 가까운 유형', expand:'전체 유형 설명 펼치기 ↓', collapse:'접기 ↑', strengths:'✨ 강점', watchouts:'🌱 눈여겨볼 부분', letter:'💌 자신에게 건네는 한마디', again:'다시 하기', share:'공유 링크 복사', copied:'복사됐어요!', note:'다른 사람 앞에서는 다른 당신이 돼요. 이건 최종 답이 아니라 출발점이에요.', loading:'불러오는 중...' },
 }
 
 export default function ResultPage() {
@@ -97,6 +98,8 @@ export default function ResultPage() {
   const lang = (searchParams.get('lang') as Lang) || 'zh'
   const answersParam = searchParams.get('answers')
   const [expanded, setExpanded] = useState(false)
+  const [longContent, setLongContent] = useState<string | null>(null)
+  const [loadingLong, setLoadingLong] = useState(false)
   const t = ui[lang]
 
   let answers: string[][] = []
@@ -114,23 +117,36 @@ export default function ResultPage() {
   const typeLetter = lang === 'ko' ? matchedType.letter.ko : matchedType.letter.zh
   const typeSig = lang === 'ko' ? matchedType.signature.ko : matchedType.signature.zh
 
+  const handleExpand = async () => {
+    if (!expanded && !longContent) {
+      setLoadingLong(true)
+      try {
+        const res = await fetch(`/api/type-detail?id=${matchedType.id}&lang=${lang}`)
+        const data = await res.json()
+        setLongContent(data.content)
+      } catch (e) {
+        console.error(e)
+      } finally {
+        setLoadingLong(false)
+      }
+    }
+    setExpanded(!expanded)
+  }
+
   return (
     <div className="min-h-screen bg-rose-50 flex flex-col items-center px-6 py-12">
       <div className="w-full max-w-xl flex flex-col gap-6">
 
-        {/* 标题 */}
         <div className="text-center">
           <h1 className="text-2xl font-bold text-rose-400 mb-1">💕 {t.title}</h1>
           <p className="text-rose-300 text-sm">{t.subtitle}</p>
         </div>
 
-        {/* 代码大卡片 */}
         <div className="bg-white rounded-2xl p-8 shadow-sm text-center">
           <div className="text-3xl font-bold text-rose-400 tracking-widest mb-1">{code}</div>
           <p className="text-gray-400 text-xs mt-1">你的关系风格代码</p>
         </div>
 
-        {/* 四个维度 */}
         <div className="flex flex-col gap-2">
           {parts.map((part, i) => (
             <div key={i} className="bg-white rounded-xl px-4 py-3 shadow-sm flex items-center gap-3">
@@ -140,7 +156,6 @@ export default function ResultPage() {
           ))}
         </div>
 
-        {/* 类型卡片 */}
         <div className="bg-white rounded-2xl p-6 shadow-sm">
           <p className="text-rose-300 text-xs mb-2">{t.type}</p>
           <div className="flex items-center gap-2 mb-3">
@@ -153,17 +168,36 @@ export default function ResultPage() {
           <p className="text-rose-400 text-sm italic mb-3">{typeSig}</p>
           <p className="text-gray-600 text-sm leading-relaxed">{typeShort}</p>
 
-          {/* 展开按钮 */}
           <button
-            onClick={() => setExpanded(!expanded)}
+            onClick={handleExpand}
             className="mt-4 w-full py-2.5 rounded-xl border-2 border-rose-200 text-rose-400 text-sm font-medium hover:bg-rose-50 transition-all"
           >
-            {expanded ? t.collapse : t.expand}
+            {loadingLong ? t.loading : expanded ? t.collapse : t.expand}
           </button>
 
-          {/* 展开内容 */}
           {expanded && (
             <div className="mt-5 flex flex-col gap-5">
+
+              {longContent && (
+                <div className="border-b border-rose-100 pb-5">
+                  <ReactMarkdown
+                    components={{
+                      h1: ({children}) => <h1 className="text-lg font-bold text-gray-800 mt-4 mb-1">{children}</h1>,
+                      h2: ({children}) => <h2 className="text-base font-semibold text-rose-400 mt-4 mb-1">{children}</h2>,
+                      h3: ({children}) => <h3 className="text-sm font-semibold text-gray-600 mt-2 mb-1">{children}</h3>,
+                      p: ({children}) => <p className="text-sm text-gray-600 leading-relaxed mb-2">{children}</p>,
+                      strong: ({children}) => <strong className="font-semibold text-gray-800">{children}</strong>,
+                      blockquote: ({children}) => <blockquote className="border-l-2 border-rose-300 pl-3 text-rose-500 italic text-sm my-2">{children}</blockquote>,
+                      ul: ({children}) => <ul className="flex flex-col gap-1 my-1">{children}</ul>,
+                      li: ({children}) => <li className="text-sm text-gray-600 leading-relaxed flex gap-2"><span className="text-rose-300">•</span><span>{children}</span></li>,
+                      hr: () => <hr className="border-rose-100 my-3" />,
+                    }}
+                  >
+                    {longContent}
+                  </ReactMarkdown>
+                </div>
+              )}
+
               <div>
                 <p className="font-semibold text-gray-700 mb-2">{t.strengths}</p>
                 <ul className="flex flex-col gap-1">
@@ -192,12 +226,10 @@ export default function ResultPage() {
           )}
         </div>
 
-        {/* 备注 */}
         <div className="bg-rose-100 rounded-2xl p-4">
           <p className="text-rose-500 text-sm leading-relaxed text-center">{t.note}</p>
         </div>
 
-        {/* 按钮 */}
         <div className="flex gap-3">
           <button
             onClick={() => router.push(`/?lang=${lang}`)}
