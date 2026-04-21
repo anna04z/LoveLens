@@ -63,7 +63,7 @@ function calcCode(answers: string[][]): string {
   const con: Record<string,number> = {}
   questions.forEach((q, i) => {
     const selected = answers[i] || []
-    const points = [3, 2, 1]
+    const points = [3, 2, 1, 0.5]
     selected.forEach((optId, rank) => {
       const p = points[rank] || 0
       if (q.dimension === 'attachment' && attachmentMap[q.id]?.[optId]) addScore(att, attachmentMap[q.id][optId], p)

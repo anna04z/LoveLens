@@ -52,7 +52,7 @@ export default function TestPage() {
       const idx = curr.indexOf(optId)
       if (idx !== -1) {
         curr.splice(idx, 1)
-      } else if (curr.length < 3) {
+      } else if (curr.length < 4) {
         curr.push(optId)
       }
       const next = [...prev]
