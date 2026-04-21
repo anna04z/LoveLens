@@ -177,7 +177,6 @@ export default function ResultPage() {
 
           {expanded && (
             <div className="mt-5 flex flex-col gap-5">
-
               {longContent && (
                 <div className="border-b border-rose-100 pb-5">
                   <ReactMarkdown
@@ -197,7 +196,6 @@ export default function ResultPage() {
                   </ReactMarkdown>
                 </div>
               )}
-
               <div>
                 <p className="font-semibold text-gray-700 mb-2">{t.strengths}</p>
                 <ul className="flex flex-col gap-1">
@@ -230,6 +228,7 @@ export default function ResultPage() {
           <p className="text-rose-500 text-sm leading-relaxed text-center">{t.note}</p>
         </div>
 
+        {/* 按钮 */}
         <div className="flex gap-3">
           <button
             onClick={() => router.push(`/?lang=${lang}`)}
@@ -251,6 +250,40 @@ export default function ResultPage() {
           >
             {t.share}
           </button>
+        </div>
+
+        {/* 结尾提醒 */}
+        <div className="pt-6 border-t border-rose-200">
+          <p className="text-gray-400 text-xs text-center mb-4">···</p>
+          <div className="text-gray-500 text-xs leading-loose space-y-3">
+            {lang === 'zh' && <>
+              <p>不管你测出什么类型——</p>
+              <p>如果你在一段关系里，一直觉得自己在缩小、在让步、在消耗；如果你需要不停地解释、证明、讨好，才能留住那个人；如果那个人让你越来越不像自己——</p>
+              <p>请记得：<strong className="text-gray-600">磨合不是单方面的委屈。</strong></p>
+              <p>爱不应该让你变得更小。一段让你每天都在怀疑自己的关系，不是"你还不够努力"——是你的身体在告诉你，你值得被不一样地对待。</p>
+              <p><strong className="text-gray-600">离开一段伤害你的关系，不是失败——是爱自己。</strong></p>
+              <p>LoveLens 帮你看见"你在爱里是什么样子"——但<strong className="text-gray-600">你是什么样子，永远比"能不能留住一段关系"重要</strong>。</p>
+              <p className="text-center pt-2">🌷</p>
+            </>}
+            {lang === 'ko' && <>
+              <p>어떤 타입이 나왔든 상관없이—</p>
+              <p>어떤 관계 안에서, 당신이 계속 작아지고, 양보하고, 소진되고 있다고 느낀다면; 그 사람을 붙잡기 위해, 계속 설명하고, 증명하고, 맞춰주어야만 한다면; 그 사람 앞에서, 당신이 점점 당신답지 않아진다면—</p>
+              <p>기억해 주세요: <strong className="text-gray-600">맞춰간다는 건, 한 사람만 참는다는 뜻이 아니에요.</strong></p>
+              <p>사랑은 당신을 더 작게 만들면 안 돼요. 매일 스스로를 의심하게 만드는 관계는, "당신이 아직 충분히 노력하지 않아서"가 아니에요—당신의 몸이 말해주고 있는 거예요. 당신은 다르게 대우받을 자격이 있다고요.</p>
+              <p><strong className="text-gray-600">당신을 아프게 하는 관계에서 떠나는 건, 실패가 아니에요—스스로를 사랑하는 거예요.</strong></p>
+              <p>LoveLens는 "당신이 사랑 앞에서 어떤 모습인지"를 보여줘요—하지만 <strong className="text-gray-600">당신이 어떤 사람인지는, "이 관계를 지킬 수 있는지"보다 언제나 더 중요해요.</strong></p>
+              <p className="text-center pt-2">🌷</p>
+            </>}
+            {lang === 'en' && <>
+              <p>No matter which type you got —</p>
+              <p>If you find yourself shrinking, giving in, being drained in a relationship; if you have to keep explaining, proving, pleasing, just to hold on to that person; if that person is slowly making you less like yourself —</p>
+              <p>Please remember: <strong className="text-gray-600">Meeting each other halfway is not one person doing all the bending.</strong></p>
+              <p>Love shouldn't make you smaller. A relationship that has you doubting yourself every day isn't about "you not trying hard enough" — it's your body telling you that you deserve to be treated differently.</p>
+              <p><strong className="text-gray-600">Leaving a relationship that hurts you isn't failure — it's loving yourself.</strong></p>
+              <p>LoveLens helps you see "who you are in love" — but <strong className="text-gray-600">who you are will always matter more than whether you can keep a relationship.</strong></p>
+              <p className="text-center pt-2">🌷</p>
+            </>}
+          </div>
         </div>
 
       </div>
