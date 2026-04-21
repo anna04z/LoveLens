@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { questions } from '../questions'
@@ -87,6 +87,12 @@ const dimLabels = {
 }
 const dimColors = ['bg-blue-100 text-blue-600','bg-green-100 text-green-600','bg-yellow-100 text-yellow-600','bg-red-100 text-red-600']
 
+const codeLabel = {
+  zh: '你的关系风格代码',
+  en: 'Your relationship style code',
+  ko: '당신의 관계 스타일 코드',
+}
+
 const ui = {
   zh: { title:'你的 LoveLens 代码', subtitle:'这是一面镜子，不是判决 🌷', type:'你最接近的类型', expand:'展开完整类型说明 ↓', collapse:'收起 ↑', strengths:'✨ 优势', watchouts:'🌱 注意', letter:'💌 给自己', again:'再做一次', share:'复制分享链接', copied:'已复制！', note:'面对不同的人，你会是不同的你。这不是最终答案，是一个起点。', loading:'读取中...' },
   en: { title:'Your LoveLens Code', subtitle:'This is a mirror, not a verdict 🌷', type:'Your closest type', expand:'Expand full type description ↓', collapse:'Collapse ↑', strengths:'✨ Strengths', watchouts:'🌱 Watch out for', letter:'💌 A note to yourself', again:'Take Again', share:'Copy share link', copied:'Copied!', note:'You become a different you with different people. This is a starting point, not a final answer.', loading:'Loading...' },
@@ -111,12 +117,27 @@ export default function ResultPage() {
   const matchedType = findMainType(code)
   const labels = dimLabels[lang]
 
-  const typeName = lang === 'ko' ? matchedType.koName : matchedType.zhName
-  const typeShort = lang === 'ko' ? matchedType.short.ko : matchedType.short.zh
-  const typeStrengths = lang === 'ko' ? matchedType.strengths.ko : matchedType.strengths.zh
-  const typeWatchouts = lang === 'ko' ? matchedType.watchouts.ko : matchedType.watchouts.zh
-  const typeLetter = lang === 'ko' ? matchedType.letter.ko : matchedType.letter.zh
-  const typeSig = lang === 'ko' ? matchedType.signature.ko : matchedType.signature.zh
+  const typeName = lang === 'ko' ? matchedType.koName : lang === 'en' ? matchedType.enName : matchedType.zhName
+  const typeShort = lang === 'ko' ? matchedType.short.ko : lang === 'en' ? null : matchedType.short.zh
+  const typeStrengths = lang === 'ko' ? matchedType.strengths.ko : lang === 'en' ? [] : matchedType.strengths.zh
+  const typeWatchouts = lang === 'ko' ? matchedType.watchouts.ko : lang === 'en' ? [] : matchedType.watchouts.zh
+  const typeLetter = lang === 'ko' ? matchedType.letter.ko : lang === 'en' ? null : matchedType.letter.zh
+  const typeSig = lang === 'ko' ? matchedType.signature.ko : lang === 'en' ? null : matchedType.signature.zh
+
+  // 英文时自动加载完整内容
+  useEffect(() => {
+    if (lang === 'en') {
+      setLoadingLong(true)
+      fetch(`/api/type-detail?id=${matchedType.id}&lang=en`)
+        .then(r => r.json())
+        .then(data => {
+          setLongContent(data.content)
+          setExpanded(true)
+          setLoadingLong(false)
+        })
+        .catch(() => setLoadingLong(false))
+    }
+  }, [lang, matchedType.id])
 
   const handleExpand = async () => {
     if (!expanded && !longContent) {
@@ -145,7 +166,7 @@ export default function ResultPage() {
 
         <div className="bg-white rounded-2xl p-8 shadow-sm text-center">
           <div className="text-3xl font-bold text-rose-400 tracking-widest mb-1">{code}</div>
-          <p className="text-gray-400 text-xs mt-1">你的关系风格代码</p>
+          <p className="text-gray-400 text-xs mt-1">{codeLabel[lang]}</p>
         </div>
 
         <div className="flex flex-col gap-2">
@@ -166,15 +187,20 @@ export default function ResultPage() {
               <div className="text-gray-500 text-sm">{typeName}</div>
             </div>
           </div>
-          <p className="text-rose-400 text-sm italic mb-3">{typeSig}</p>
-          <p className="text-gray-600 text-sm leading-relaxed">{typeShort}</p>
+          {typeSig && <p className="text-rose-400 text-sm italic mb-3">{typeSig}</p>}
+          {typeShort && <p className="text-gray-600 text-sm leading-relaxed">{typeShort}</p>}
 
-          <button
-            onClick={handleExpand}
-            className="mt-4 w-full py-2.5 rounded-xl border-2 border-rose-200 text-rose-400 text-sm font-medium hover:bg-rose-50 transition-all"
-          >
-            {loadingLong ? t.loading : expanded ? t.collapse : t.expand}
-          </button>
+          {/* 英文时显示加载状态，中韩文时显示展开按钮 */}
+          {lang === 'en' ? (
+            loadingLong && <p className="text-rose-300 text-sm text-center mt-4">{t.loading}</p>
+          ) : (
+            <button
+              onClick={handleExpand}
+              className="mt-4 w-full py-2.5 rounded-xl border-2 border-rose-200 text-rose-400 text-sm font-medium hover:bg-rose-50 transition-all"
+            >
+              {loadingLong ? t.loading : expanded ? t.collapse : t.expand}
+            </button>
+          )}
 
           {expanded && (
             <div className="mt-5 flex flex-col gap-5">
@@ -197,30 +223,32 @@ export default function ResultPage() {
                   </ReactMarkdown>
                 </div>
               )}
-              <div>
-                <p className="font-semibold text-gray-700 mb-2">{t.strengths}</p>
-                <ul className="flex flex-col gap-1">
-                  {typeStrengths.map((s, i) => (
-                    <li key={i} className="text-sm text-gray-600 flex items-start gap-2">
-                      <span className="text-rose-300 mt-0.5">•</span>{s}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <p className="font-semibold text-gray-700 mb-2">{t.watchouts}</p>
-                <ul className="flex flex-col gap-1">
-                  {typeWatchouts.map((w, i) => (
-                    <li key={i} className="text-sm text-gray-600 flex items-start gap-2">
-                      <span className="text-rose-300 mt-0.5">•</span>{w}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="bg-rose-50 rounded-xl p-4">
-                <p className="font-semibold text-gray-700 mb-2">{t.letter}</p>
-                <p className="text-rose-500 text-sm leading-relaxed italic">{typeLetter}</p>
-              </div>
+              {lang !== 'en' && <>
+                <div>
+                  <p className="font-semibold text-gray-700 mb-2">{t.strengths}</p>
+                  <ul className="flex flex-col gap-1">
+                    {typeStrengths.map((s, i) => (
+                      <li key={i} className="text-sm text-gray-600 flex items-start gap-2">
+                        <span className="text-rose-300 mt-0.5">•</span>{s}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <p className="font-semibold text-gray-700 mb-2">{t.watchouts}</p>
+                  <ul className="flex flex-col gap-1">
+                    {typeWatchouts.map((w, i) => (
+                      <li key={i} className="text-sm text-gray-600 flex items-start gap-2">
+                        <span className="text-rose-300 mt-0.5">•</span>{w}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="bg-rose-50 rounded-xl p-4">
+                  <p className="font-semibold text-gray-700 mb-2">{t.letter}</p>
+                  <p className="text-rose-500 text-sm leading-relaxed italic">{typeLetter}</p>
+                </div>
+              </>}
             </div>
           )}
         </div>
@@ -229,7 +257,6 @@ export default function ResultPage() {
           <p className="text-rose-500 text-sm leading-relaxed text-center">{t.note}</p>
         </div>
 
-        {/* 按钮 */}
         <div className="flex gap-3">
           <button
             onClick={() => router.push(`/?lang=${lang}`)}
@@ -253,7 +280,6 @@ export default function ResultPage() {
           </button>
         </div>
 
-        {/* 结尾提醒 */}
         <div className="pt-6 border-t border-rose-200">
           <p className="text-gray-400 text-xs text-center mb-4">···</p>
           <div className="text-gray-500 text-xs leading-loose space-y-3">
@@ -287,7 +313,7 @@ export default function ResultPage() {
           </div>
         </div>
 
-     </div>
+      </div>
       <BottomNav lang={lang} />
     </div>
   )

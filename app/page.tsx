@@ -92,7 +92,7 @@ export default function Home() {
         </div>
 
         <button
-          onClick={() => router.push(`/test?lang=${lang}`)}
+          onClick={() => router.push(`/intro?lang=${lang}`)}
           className="bg-rose-400 hover:bg-rose-500 text-white text-lg font-semibold px-12 py-4 rounded-full shadow-md transition-all"
         >
           {t.start} ☁️
